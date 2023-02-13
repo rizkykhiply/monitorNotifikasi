@@ -1,0 +1,31 @@
+// Constants Service Variables
+const SERVICE_NODE_ENV = process.env.SERVICE_NODE_ENV;
+const SERVICE_NAME = process.env.SERVICE_NAME;
+const SERVICE_BASE_URL = process.env.SERVICE_BASE_URL;
+
+// Constants Service DB Variables
+const SERVICE_DATABASE_HOST = process.env.SERVICE_DATABASE_HOST;
+const SERVICE_DATABASE_PORT = Number(process.env.SERVICE_DATABASE_PORT);
+const SERVICE_DATABASE_USER = process.env.SERVICE_DATABASE_USER;
+const SERVICE_DATABASE_PASS = process.env.SERVICE_DATABASE_PASS;
+const SERVICE_DATABASE_NAME = process.env.SERVICE_DATABASE_NAME;
+
+// Constants Service Auth Variables
+const SERVICE_TOKEN_SECRET = process.env.SERVICE_TOKEN_SECRET || '';
+const SERVICE_TOKEN_NAME = process.env.SERVICE_TOKEN_NAME || '';
+const SERVICE_TOKEN_MAX_AGE = 60 * 2; // 8 hours;
+
+// Export Variables
+export {
+    SERVICE_NODE_ENV,
+    SERVICE_NAME,
+    SERVICE_BASE_URL,
+    SERVICE_DATABASE_HOST,
+    SERVICE_DATABASE_PORT,
+    SERVICE_DATABASE_USER,
+    SERVICE_DATABASE_PASS,
+    SERVICE_DATABASE_NAME,
+    SERVICE_TOKEN_SECRET,
+    SERVICE_TOKEN_NAME,
+    SERVICE_TOKEN_MAX_AGE,
+};
