@@ -1,7 +1,5 @@
-// Export All Components Interface
+// Export all Styles Components
 export * from './carousel';
 export * from './content';
-export * from './layout';
 export * from './navbar';
 export * from './sidebar';
-export * from './snackbar';

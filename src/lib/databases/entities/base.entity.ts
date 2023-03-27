@@ -1,4 +1,4 @@
-// Export Interface Base Entities
+// Define Base Entity Interface
 export interface BaseEntity {
     id: number;
     status: number;

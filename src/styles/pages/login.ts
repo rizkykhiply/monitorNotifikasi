@@ -30,6 +30,22 @@ export const LoginBoxWrapper = styled(Box)(({ theme }) => ({
     borderTopLeftRadius: '20px',
     borderBottomLeftRadius: '20px',
     boxShadow: theme.shadows[6],
+    position: 'relative',
+}));
+
+export const LoginBoxLogo = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+
+    position: 'absolute',
+    top: 30,
+    left: 30,
+}));
+
+export const LoginLogoText = styled(Typography)(({ theme }) => ({
+    width: '160px',
+    fontSize: '14px',
+    marginLeft: '10px',
 }));
 
 export const LoginFormBoxWrapper = styled(Box)(({ theme }) => ({
@@ -49,15 +65,19 @@ export const LoginFormContainer = styled(Form)(({ theme }) => ({
 export const LoginFormBoxHeader = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'flext-start',
 
-    marginBottom: '30px',
+    marginBottom: '40px',
 }));
 
 export const LoginFormText = styled(Typography)(({ theme }) => ({
-    fontSize: theme.typography.h5.fontSize,
-    fontWeight: theme.typography.h5.fontWeight,
-    marginTop: '30px',
+    fontSize: theme.typography.h2.fontSize,
+    fontWeight: theme.typography.h2.fontWeight,
+    marginBottom: '5px',
+}));
+
+export const LoginFormSubText = styled(Typography)(({ theme }) => ({
+    fontSize: '14px',
 }));
 
 export const LoginFormControl = styled(FormControl)(({ theme }) => ({
@@ -100,7 +120,7 @@ export const LoginCarouselContainer = styled(Box)(({ theme }) => ({
 
     flex: '50%',
     height: '100%',
-    background: theme.palette.primary.main,
+    background: theme.palette.background.default,
 }));
 
 export const LoginCarouselBoxWrapper = styled(Box)(({ theme }) => ({

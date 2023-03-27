@@ -18,15 +18,15 @@ const nextConfig = {
     devIndicators: {
         buildActivity: false,
     },
-    // async redirects() {
-    //     return [
-    //         {
-    //             source: '/',
-    //             destination: '/login',
-    //             permanent: false,
-    //         },
-    //     ];
-    // },
+    async redirects() {
+        return [
+            {
+                source: '/',
+                destination: '/login',
+                permanent: false,
+            },
+        ];
+    },
     async headers() {
         return [
             {

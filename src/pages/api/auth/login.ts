@@ -11,7 +11,7 @@ import { API_OK, API_UNAUTHORIZED } from '@/lib/constants';
 // Define Request Authentication
 const authenticate = (method: string, req: NextApiRequest, res: NextApiResponse) =>
     new Promise((resolve, reject) => {
-        passport.authenticate(method, { session: false }, (error, token) => {
+        passport.authenticate(method, { session: false }, (error: unknown, token: unknown) => {
             if (error) {
                 reject(error);
             } else {

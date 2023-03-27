@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Field, Formik, FormikValues } from 'formik';
 
 // Import Next Modules
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Image from 'next/image';
 import Router from 'next/router';
@@ -17,11 +18,11 @@ import { forgotSchema } from '@/lib/validation';
 import { Api } from '@/lib/api';
 
 // Import Assets
-import Logo from '../../../public/qurbanqu.png';
+import Logo from '../../../public/redbox-logo.png';
 
 // Import Components
-import InputComponent from '@/components/Form/Input';
-import SnackbarComponent from '@/components/Snackbar/Snackbar';
+const InputComponent = dynamic(() => import('@/components/Form/Input'), { ssr: false });
+const SnackbarComponent = dynamic(() => import('@/components/Snackbar/Snackbar'), { ssr: false });
 
 // Import Styles
 import {
@@ -65,11 +66,10 @@ const ForgotPage = () => {
         setOpenSnackbar(!openSnackbar);
     };
 
-    // Define Forgot Page Components
     return (
         <>
             <Head>
-                <title>Lupa Password - QurbanQu</title>
+                <title>Lupa Password - Redbox</title>
             </Head>
             <Formik initialValues={initialValues} validationSchema={forgotSchema} onSubmit={handleSubmit}>
                 {({ isSubmitting, isValid, dirty }) => (
@@ -77,7 +77,7 @@ const ForgotPage = () => {
                         <ForgotBoxWrapper>
                             <ForgotFormContainer autoComplete="off">
                                 <ForgotFormBoxHeader>
-                                    <Image alt="Logo QurbanQu" src={Logo} width={400} height={150} />
+                                    <Image alt="Logo QurbanQu" src={Logo} width={150} height={150} />
                                     <ForgotFormTitle>Atur Ulang Kata Sandi</ForgotFormTitle>
                                     <ForgotFormText>
                                         Masukkan email yang terdaftar. Kami akan mengirimkan kode verifikasi untuk atur ulang kata sandi.

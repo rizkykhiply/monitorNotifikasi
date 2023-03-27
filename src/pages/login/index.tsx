@@ -6,6 +6,8 @@ import { Field, Formik, FormikValues } from 'formik';
 import Head from 'next/head';
 import Image from 'next/image';
 import Router from 'next/router';
+import dynamic from 'next/dynamic';
+import { GetServerSideProps, NextApiRequest } from 'next';
 
 // Import Material Modules
 import PersonOutlined from '@mui/icons-material/PersonOutlined';
@@ -19,18 +21,21 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { LoginInitialValues } from '@/interfaces/pages';
 
 // Import Libs
+import { getLoginSession } from '@/lib/auth/auth';
 import { loginSchema } from '@/lib/validation';
 import { Api } from '@/lib/api';
 
 // Import Assets
-import Logo from '../../../public/qurbanqu.png';
+import Logo from '../../../public/redbox-logo.png';
 
 // Import Components
-import InputComponent from '@/components/Form/Input';
-import SnackbarComponent from '@/components/Snackbar/Snackbar';
+const CarouselComponent = dynamic(() => import('@/components/Carousel/Carousel'), { ssr: false });
+const InputComponent = dynamic(() => import('@/components/Form/Input'), { ssr: false });
+const SnackbarComponent = dynamic(() => import('@/components/Snackbar/Snackbar'), { ssr: false });
 
 // Import Styles
 import {
+    LoginBoxLogo,
     LoginBoxWrapper,
     LoginCarouselBoxWrapper,
     LoginCarouselContainer,
@@ -41,7 +46,9 @@ import {
     LoginFormContainer,
     LoginFormControl,
     LoginFormForgot,
+    LoginFormSubText,
     LoginFormText,
+    LoginLogoText,
     LoginSection,
 } from '@/styles/pages/login';
 
@@ -64,7 +71,7 @@ const LoginPage = () => {
         try {
             let response = await Api.post('/api/auth/login', { ...values });
             if (response.status === 200) {
-                Router.push('/');
+                Router.push('login/redirect');
             }
         } catch (error) {
             setOpenSnackbar(!openSnackbar);
@@ -86,11 +93,10 @@ const LoginPage = () => {
         setOpenSnackbar(!openSnackbar);
     };
 
-    // Define Login Page Components
     return (
         <>
             <Head>
-                <title>Login - QurbanQu</title>
+                <title>Login - Redbox</title>
             </Head>
             <Formik initialValues={initialValues} validationSchema={loginSchema} onSubmit={handleSubmit}>
                 {({ isSubmitting, isValid, dirty }) => (
@@ -98,9 +104,15 @@ const LoginPage = () => {
                         <LoginBoxWrapper>
                             <LoginFormBoxWrapper>
                                 <LoginFormContainer autoComplete="off">
+                                    <LoginBoxLogo>
+                                        <Image alt="Logo Redbox" src={Logo} width={45} height={40} />
+                                        <LoginLogoText>Digital Sales and Consumer Promotions</LoginLogoText>
+                                    </LoginBoxLogo>
                                     <LoginFormBoxHeader>
-                                        <Image alt="Logo QurbanQu" src={Logo} width={400} height={150} />
-                                        <LoginFormText>Selamat Datang di Dashboard QurbanQu</LoginFormText>
+                                        <LoginFormText>Log in</LoginFormText>
+                                        <LoginFormSubText>
+                                            Selamat Datang di Redbox Web Accounting. Silahkan masuk menggunakan akun anda.
+                                        </LoginFormSubText>
                                     </LoginFormBoxHeader>
                                     <LoginFormControl fullWidth variant="standard">
                                         <Field
@@ -153,7 +165,7 @@ const LoginPage = () => {
                                 </LoginFormContainer>
                             </LoginFormBoxWrapper>
                             <LoginCarouselContainer>
-                                <LoginCarouselBoxWrapper>{/* <CustomCarousel /> */}</LoginCarouselBoxWrapper>
+                                <LoginCarouselBoxWrapper>{<CarouselComponent />}</LoginCarouselBoxWrapper>
                             </LoginCarouselContainer>
                         </LoginBoxWrapper>
                     </LoginSection>
@@ -168,6 +180,25 @@ const LoginPage = () => {
             />
         </>
     );
+};
+
+// Define Login Server Side
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const getRequest = context.req as NextApiRequest;
+    const getSession = await getLoginSession(getRequest);
+
+    if (!getSession) {
+        return {
+            props: {},
+        };
+    }
+
+    return {
+        redirect: {
+            destination: '/dashboard',
+            permanent: false,
+        },
+    };
 };
 
 // Export Login Page

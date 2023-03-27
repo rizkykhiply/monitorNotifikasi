@@ -1,4 +1,4 @@
-// Constants Service Variables
+// Define Constants Service Variables
 const SERVICE_NODE_ENV = process.env.SERVICE_NODE_ENV;
 const SERVICE_NAME = process.env.SERVICE_NAME;
 const SERVICE_BASE_URL = process.env.SERVICE_BASE_URL;

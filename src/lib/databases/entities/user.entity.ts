@@ -2,7 +2,7 @@
 import { Access } from './access.entity';
 import { BaseEntity } from './base.entity';
 
-// Export Interface User
+// Define User Interface
 export interface User extends BaseEntity, Access {
     access_id: number;
     username: string;

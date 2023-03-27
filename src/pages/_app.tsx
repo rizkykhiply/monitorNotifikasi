@@ -7,7 +7,7 @@ import Head from 'next/head';
 import nProgress from 'nprogress';
 
 // Import Interfaces
-import { MyAppProps } from '@/interfaces/pages/app';
+import { MyAppProps } from '@/interfaces/pages';
 
 // Import Libs
 import { createEmotionCache } from '@/lib/utils';

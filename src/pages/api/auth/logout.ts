@@ -13,4 +13,4 @@ const logout = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 // Export Handler Api Logout
-export default handlerProtectApi(logout, ['POST']);
+export default handlerProtectApi(logout, ['GET']);

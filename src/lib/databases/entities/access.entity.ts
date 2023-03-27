@@ -1,7 +1,7 @@
 // Import Interface Entities
 import { BaseEntity } from './base.entity';
 
-// Export Interface Access
+// Define Access Interface
 export interface Access extends BaseEntity {
     role: number;
 }
