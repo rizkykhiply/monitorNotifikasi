@@ -3,10 +3,10 @@ import createEmotionServer from '@emotion/server/create-instance';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 // Import Libs
-import { createEmotionCache } from '@/lib/utils';
+import { createEmotionCache } from '@lib/utils';
 
 // Import Base Theme
-import theme from '@/styles/theme';
+import theme from '@styles/theme';
 
 // Define My Document
 export default class MyDocument extends Document {

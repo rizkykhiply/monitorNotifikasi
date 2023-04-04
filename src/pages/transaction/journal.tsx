@@ -1,20 +1,20 @@
 // Import Modules
-import Head from 'next/head';
 import { ReactElement } from 'react';
 import { GetServerSideProps, NextApiRequest } from 'next';
+import Head from 'next/head';
 
 // Import Libs
-import { getLoginSession } from '@/lib/auth/auth';
+import { getLoginSession } from '@lib/auth/auth';
 
 // Import Components
-import LayoutComponent from '@/components/Layout/Layout';
+import LayoutComponent from '@components/Layout/Layout';
 
-// Define Setting Page
-const SettingPage = () => {
+// Define Transaction Journal Page
+const TransactionJournalPage = () => {
     return (
         <>
             <Head>
-                <title>Setting - Redbox</title>
+                <title>Transaction Journal - Dashboard Accounting</title>
             </Head>
         </>
     );
@@ -38,8 +38,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
 };
 
-// Define Setting Layout
-SettingPage.getLayout = (page: ReactElement) => <LayoutComponent>{page}</LayoutComponent>;
+// Define Transaction Journal Layout
+TransactionJournalPage.getLayout = (page: ReactElement) => <LayoutComponent>{page}</LayoutComponent>;
 
-// Export Setting Page
-export default SettingPage;
+// Export Transaction Journal Page
+export default TransactionJournalPage;

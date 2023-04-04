@@ -1,6 +1,7 @@
 // Import Modules
 import createCache from '@emotion/cache';
 
+// Define Browser
 const isBrowser = typeof document !== 'undefined';
 
 // Define Emotion Cache For Overriding Style

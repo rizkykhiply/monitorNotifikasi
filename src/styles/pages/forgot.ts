@@ -15,7 +15,7 @@ export const ForgotSection = styled(Box)(({ theme }) => ({
     alignItems: 'center',
 
     height: '100vh',
-    background: `linear-gradient(to bottom, ${theme.palette.background.paper} 50%, ${theme.palette.primary.main}  50%)`,
+    background: theme.palette.background.paper,
 }));
 
 export const ForgotBoxWrapper = styled(Box)(({ theme }) => ({
@@ -66,14 +66,9 @@ export const ForgotFormControl = styled(FormControl)(({ theme }) => ({
 }));
 
 export const ForgotFormButton = styled(Button)(({ theme }) => ({
-    background: theme.palette.primary.main,
     ':disabled': {
         pointerEvents: 'unset',
         cursor: 'not-allowed',
-        opacity: 0.3,
-    },
-    ':hover': {
-        backgroundColor: theme.palette.primary.light,
     },
     margin: '30px 0',
 }));

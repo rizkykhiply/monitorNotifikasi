@@ -1,8 +1,8 @@
+// Import Interfaces
+import { PropsLayout } from '@interfaces/components';
+
 // Import Components
 import Content from '../Content/Content';
-
-// Import Interfaces
-import { PropsLayout } from '@/interfaces/components';
 
 // Define Layout Component
 const LayoutComponent = ({ children }: PropsLayout) => {

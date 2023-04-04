@@ -1,22 +1,27 @@
 // Import Modules
 import { Router } from 'next/router';
 import { CacheProvider } from '@emotion/react';
-import { CssBaseline, ThemeProvider } from '@mui/material';
 import { SWRConfig } from 'swr/_internal';
 import Head from 'next/head';
 import nProgress from 'nprogress';
 
+// Import Material Modules
+import { CssBaseline, ThemeProvider } from '@mui/material';
+
 // Import Interfaces
-import { MyAppProps } from '@/interfaces/pages';
+import { MyAppProps } from '@interfaces/pages';
 
 // Import Libs
-import { createEmotionCache } from '@/lib/utils';
-import { Api } from '@/lib/api';
+import { createEmotionCache } from '@lib/utils';
+import { Api } from '@lib/api';
+
+// Import Context
+import { StoreContextProvider } from '@context/store/context';
 
 // Import Global Styles
-import theme from '@/styles/theme';
-import '@/styles/globals.css';
-import '@/styles/loader.css';
+import theme from '@styles/theme';
+import '@styles/globals.css';
+import '@styles/loader.css';
 
 // Define Client Side Cache
 const clientSideEmotionCache = createEmotionCache();
@@ -33,16 +38,18 @@ const App = (props: MyAppProps) => {
     Router.events.on('routeChangeComplete', nProgress.done);
 
     return (
-        <SWRConfig value={{ fetcher: (url: string) => Api(url).then((res) => res.data) }}>
-            <CacheProvider value={emotionCache}>
-                <Head>
-                    <meta name="viewport" content="initial-scale=1, width=device-width" />
-                </Head>
-                <ThemeProvider theme={theme}>
-                    <CssBaseline />
-                    {getLayout(<Component {...pageProps} />)}
-                </ThemeProvider>
-            </CacheProvider>
+        <SWRConfig value={{ fetcher: (url: string) => Api.get(url).then((res) => res.data) }}>
+            <StoreContextProvider>
+                <CacheProvider value={emotionCache}>
+                    <Head>
+                        <meta name="viewport" content="initial-scale=1, width=device-width" />
+                    </Head>
+                    <ThemeProvider theme={theme}>
+                        <CssBaseline />
+                        {getLayout(<Component {...pageProps} />)}
+                    </ThemeProvider>
+                </CacheProvider>
+            </StoreContextProvider>
         </SWRConfig>
     );
 };

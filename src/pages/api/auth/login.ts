@@ -4,9 +4,9 @@ import passport from 'passport';
 import nextConnect from 'next-connect';
 
 // Import Libs
-import { localStrategy } from '@/lib/auth/strategy';
-import { setLoginSession } from '@/lib/auth/auth';
-import { API_OK, API_UNAUTHORIZED } from '@/lib/constants';
+import { localStrategy } from '@lib/auth/strategy';
+import { setLoginSession } from '@lib/auth/auth';
+import { API_OK, API_UNAUTHORIZED } from '@lib/constants';
 
 // Define Request Authentication
 const authenticate = (method: string, req: NextApiRequest, res: NextApiResponse) =>
@@ -28,10 +28,10 @@ export default nextConnect()
     .use(passport.initialize())
     .post(async (req: NextApiRequest, res: NextApiResponse) => {
         try {
-            const user: any = await authenticate('local', req, res);
-            const session = { ...user };
+            const getUser: any = await authenticate('local', req, res);
+            const getSession = { ...getUser };
 
-            await setLoginSession(res, session);
+            await setLoginSession(res, getSession);
 
             return API_OK(res, { done: true });
         } catch (error) {

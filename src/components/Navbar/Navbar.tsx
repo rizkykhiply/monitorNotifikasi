@@ -1,16 +1,21 @@
 // Import Modules
-import { memo, MouseEvent, useState } from 'react';
-import Router from 'next/router';
+import { memo, MouseEvent, useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 // Import Material Modules
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import LogoutIcon from '@mui/icons-material/Logout';
 import Toolbar from '@mui/material/Toolbar';
 
+// Import Material Icons
+import MenuIcon from '@mui/icons-material/MenuOutlined';
+import AccountCircleIcon from '@mui/icons-material/AccountCircleOutlined';
+import LogoutIcon from '@mui/icons-material/LogoutOutlined';
+
 // Import Interfaces
-import { PropsNavbar } from '@/interfaces/components';
+import { PropsNavbar, StateNavbar } from '@interfaces/components';
+
+// Import Libs
+import { Api } from '@lib/api';
 
 // Import Styles
 import {
@@ -28,29 +33,59 @@ import {
     NavbarMenuTextRole,
     NavbarMenuTextName,
     NavbarMenuTextWrapper,
-} from '@/styles/components';
+} from '@styles/components';
+
+// Define Initial State Navbar Component
+const initialState: StateNavbar = {
+    name: '',
+    role: '',
+};
 
 // Define Navbar Component
 export const NavbarComponent = (props: PropsNavbar) => {
     // Destructuring Props
-    const { drawerWidth, fullname, role, handleDrawerToggle } = props;
+    const { drawerWidth, handleDrawerToggle } = props;
+
+    // Define Navbar Component State
+    const [states, setStates] = useState<StateNavbar>(initialState);
 
     // Define Anchor Element State
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [anchor, setAnchor] = useState<null | HTMLElement>(null);
+
+    // Define Router
+    const router = useRouter();
+
+    // Define Fetch Session State
+    const fetchSession = useCallback(async () => {
+        const fetchingSession = await Api.get('/api/auth/session');
+        const getSession = fetchingSession.data?.data;
+
+        if (getSession) {
+            setStates({
+                name: getSession.name,
+                role: getSession.role,
+            });
+        }
+    }, []);
+
+    // Define Navbar Lifecycle Component
+    useEffect(() => {
+        fetchSession();
+    }, []);
 
     // Define Handle Click Menu
     const handleClickMenu = (event: MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
+        setAnchor(event.currentTarget);
     };
 
     // Define Handle Click Close Menu
     const handleClickCloseMenu = () => {
-        setAnchorEl(null);
+        setAnchor(null);
     };
 
     // Define Handle Click logout
     const handleClickLogout = () => {
-        Router.push('api/auth/logout');
+        router.push('/api/auth/logout');
     };
 
     return (
@@ -60,24 +95,24 @@ export const NavbarComponent = (props: PropsNavbar) => {
                     <MenuIcon />
                 </NavbarIconButton>
                 <NavbarContent>
-                    <NavbarContentText noWrap>Web Accounting</NavbarContentText>
+                    <NavbarContentText noWrap>Dashboard Accounting</NavbarContentText>
                     <NavbarContentProfile>
                         <NavbarContentButton aria-controls="menu-appbar" aria-haspopup="true" onClick={handleClickMenu}>
-                            <AccountCircle />
-                            <NavbarContentButtonText>{fullname ?? ''}</NavbarContentButtonText>
+                            <AccountCircleIcon />
+                            <NavbarContentButtonText>{states?.name}</NavbarContentButtonText>
                         </NavbarContentButton>
                         <Menu
-                            anchorEl={anchorEl}
-                            open={Boolean(anchorEl)}
+                            anchorEl={anchor}
+                            open={Boolean(anchor)}
                             onClose={handleClickCloseMenu}
                             MenuListProps={{ sx: { padding: 0, width: '290px' } }}
                         >
                             <NavbarMenuHeaderWrapper>
                                 <NavbarMenuTextWrapper>
-                                    <AccountCircle fontSize="large" />
+                                    <AccountCircleIcon fontSize="large" />
                                     <NavbarMenuTextBox>
-                                        <NavbarMenuTextName>{fullname ?? ''}</NavbarMenuTextName>
-                                        <NavbarMenuTextRole>{role ?? ''}</NavbarMenuTextRole>
+                                        <NavbarMenuTextName>{states?.name}</NavbarMenuTextName>
+                                        <NavbarMenuTextRole>{states?.role}</NavbarMenuTextRole>
                                     </NavbarMenuTextBox>
                                 </NavbarMenuTextWrapper>
                                 <NavbarMenuIconWrapper title="Logout">

@@ -1,44 +1,42 @@
 // Import Modules
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Field, Formik, FormikValues } from 'formik';
-
-// Import Next Modules
+import { GetServerSideProps, NextApiRequest } from 'next';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
-import Router from 'next/router';
 import dynamic from 'next/dynamic';
-import { GetServerSideProps, NextApiRequest } from 'next';
 
 // Import Material Modules
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+
+// Import Material Icons
 import PersonOutlined from '@mui/icons-material/PersonOutlined';
 import LockOutlined from '@mui/icons-material/LockOutlined';
 import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlined from '@mui/icons-material/VisibilityOffOutlined';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
 
 // Import Interfaces
-import { LoginInitialValues } from '@/interfaces/pages';
+import { LoginInitialValues } from '@interfaces/pages';
 
 // Import Libs
-import { getLoginSession } from '@/lib/auth/auth';
-import { loginSchema } from '@/lib/validation';
-import { Api } from '@/lib/api';
+import { getLoginSession } from '@lib/auth/auth';
+import { loginSchema } from '@lib/validation';
+import { Api } from '@lib/api';
 
 // Import Assets
-import Logo from '../../../public/redbox-logo.png';
+import Logo from '../../../public/logo.png';
+import Accounting from '../../../public/illustration_accounting.png';
 
 // Import Components
-const CarouselComponent = dynamic(() => import('@/components/Carousel/Carousel'), { ssr: false });
-const InputComponent = dynamic(() => import('@/components/Form/Input'), { ssr: false });
-const SnackbarComponent = dynamic(() => import('@/components/Snackbar/Snackbar'), { ssr: false });
+const InputComponent = dynamic(() => import('@components/Form/Input'), { ssr: false });
+const SnackbarComponent = dynamic(() => import('@components/Snackbar/Snackbar'), { ssr: false });
 
 // Import Styles
 import {
     LoginBoxLogo,
     LoginBoxWrapper,
-    LoginCarouselBoxWrapper,
-    LoginCarouselContainer,
     LoginFormBoxForgot,
     LoginFormBoxHeader,
     LoginFormBoxWrapper,
@@ -48,35 +46,41 @@ import {
     LoginFormForgot,
     LoginFormSubText,
     LoginFormText,
+    LoginImageContainer,
+    LoginImageText,
+    LoginImageTitle,
     LoginLogoText,
     LoginSection,
-} from '@/styles/pages/login';
+} from '@styles/pages/login';
+
+// Define Initial Form Values
+const initialValues: LoginInitialValues = {
+    username: '',
+    password: '',
+};
 
 // Define Login Page
 const LoginPage = () => {
     // Define Open Password State
-    const [openPassword, setOpenPassword] = useState(false);
+    const [openPassword, setOpenPassword] = useState<boolean>(false);
 
     // Define Open Snackbar State
-    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
 
-    // Define Initial Form Values
-    const initialValues: LoginInitialValues = {
-        username: '',
-        password: '',
-    };
+    // Define Router
+    const router = useRouter();
 
     // Define Handle Submit
-    const handleSubmit = async (values: FormikValues) => {
+    const handleSubmit = useCallback(async (values: FormikValues) => {
         try {
             let response = await Api.post('/api/auth/login', { ...values });
             if (response.status === 200) {
-                Router.push('login/redirect');
+                router.push('login/redirect');
             }
         } catch (error) {
-            setOpenSnackbar(!openSnackbar);
+            setOpenSnackbar((open) => !open);
         }
-    };
+    }, []);
 
     // Define Handle Click Show Password
     const handleClickShowPassword = () => {
@@ -85,7 +89,7 @@ const LoginPage = () => {
 
     // Define Handle Click Forgot
     const handleClickForgot = () => {
-        Router.push('/forgot');
+        router.push('/forgot');
     };
 
     // Define Handle Click Show Snackbar
@@ -96,7 +100,7 @@ const LoginPage = () => {
     return (
         <>
             <Head>
-                <title>Login - Redbox</title>
+                <title>Login - Dashboard Accounting</title>
             </Head>
             <Formik initialValues={initialValues} validationSchema={loginSchema} onSubmit={handleSubmit}>
                 {({ isSubmitting, isValid, dirty }) => (
@@ -105,13 +109,13 @@ const LoginPage = () => {
                             <LoginFormBoxWrapper>
                                 <LoginFormContainer autoComplete="off">
                                     <LoginBoxLogo>
-                                        <Image alt="Logo Redbox" src={Logo} width={45} height={40} />
+                                        <Image alt="Logo Image" src={Logo} width={45} height={40} />
                                         <LoginLogoText>Digital Sales and Consumer Promotions</LoginLogoText>
                                     </LoginBoxLogo>
                                     <LoginFormBoxHeader>
                                         <LoginFormText>Log in</LoginFormText>
                                         <LoginFormSubText>
-                                            Selamat Datang di Redbox Web Accounting. Silahkan masuk menggunakan akun anda.
+                                            Selamat Datang di Dashboard Accounting. Silahkan masuk menggunakan akun anda.
                                         </LoginFormSubText>
                                     </LoginFormBoxHeader>
                                     <LoginFormControl fullWidth variant="standard">
@@ -164,9 +168,14 @@ const LoginPage = () => {
                                     </LoginFormButton>
                                 </LoginFormContainer>
                             </LoginFormBoxWrapper>
-                            <LoginCarouselContainer>
-                                <LoginCarouselBoxWrapper>{<CarouselComponent />}</LoginCarouselBoxWrapper>
-                            </LoginCarouselContainer>
+                            <LoginImageContainer>
+                                <Image alt="Image" src={Accounting} width={600} height={400} />
+                                <LoginImageTitle>Accounting</LoginImageTitle>
+                                <LoginImageText>
+                                    Process of recording financial transactions to a business includes summarizing, analyzing, and
+                                    reporting.
+                                </LoginImageText>
+                            </LoginImageContainer>
                         </LoginBoxWrapper>
                     </LoginSection>
                 )}

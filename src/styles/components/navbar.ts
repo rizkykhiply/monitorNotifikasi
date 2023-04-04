@@ -4,7 +4,6 @@ import AppBar from '@mui/material/AppBar';
 import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 
 interface PropsNavbarContainer {
@@ -21,6 +20,10 @@ export const NavbarContainer = styled(AppBar, { shouldForwardProp: (props) => sh
             width: `calc(100% - ${width}px)`,
             marginLeft: `${width}px`,
         },
+        color: theme.palette.text.primary,
+        background: theme.palette.background.paper,
+        boxShadow: 'none',
+        borderBottom: '1px solid #0000001F',
     }),
 );
 
@@ -53,7 +56,7 @@ export const NavbarContentButton = styled(IconButton)(({ theme }) => ({
     color: 'inherit',
     borderRadius: '10px',
     '&:hover': {
-        background: 'rgba(0, 0, 0, 0.2)',
+        background: '#00000014',
     },
 }));
 
@@ -88,23 +91,16 @@ export const NavbarMenuTextName = styled(Typography)(({ theme }) => ({
 
 export const NavbarMenuTextRole = styled(Typography)(({ theme }) => ({
     fontSize: '12px',
-    color: '#8c8c8c',
+    color: theme.palette.text.secondary,
 }));
 
 export const NavbarMenuIconWrapper = styled(Tooltip)(({ theme }) => ({}));
 
 export const NavbarMenuIconButton = styled(IconButton)(({ theme }) => ({
-    color: 'inherit',
-    transition: 'all 0.2s',
+    color: theme.palette.text.primary,
+    transition: 'all 0.25s',
     '&:hover': {
-        color: '#fff',
-        backgroundColor: theme.palette.primary.main,
-    },
-}));
-
-export const NavbarMenuList = styled(MenuItem)(({ theme }) => ({
-    '&:hover': {
-        color: '#fff',
-        backgroundColor: theme.palette.primary.main,
+        color: '#FFF',
+        background: theme.palette.primary.main,
     },
 }));

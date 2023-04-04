@@ -1,28 +1,31 @@
 // Import Modules
 import { useState } from 'react';
 import { Field, Formik, FormikValues } from 'formik';
-
-// Import Next Modules
+import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Image from 'next/image';
-import Router from 'next/router';
 
 // Import Material Modules
 import InputAdornment from '@mui/material/InputAdornment';
+
+// Import Material Icons
 import MailOutline from '@mui/icons-material/MailOutline';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 
+// Import Interfaces
+import { ForgotInitialValues } from '@interfaces/pages';
+
 // Import Libs
-import { forgotSchema } from '@/lib/validation';
-import { Api } from '@/lib/api';
+import { forgotSchema } from '@lib/validation';
+import { Api } from '@lib/api';
 
 // Import Assets
-import Logo from '../../../public/redbox-logo.png';
+import Logo from '../../../public/logo.png';
 
 // Import Components
-const InputComponent = dynamic(() => import('@/components/Form/Input'), { ssr: false });
-const SnackbarComponent = dynamic(() => import('@/components/Snackbar/Snackbar'), { ssr: false });
+const InputComponent = dynamic(() => import('@components/Form/Input'), { ssr: false });
+const SnackbarComponent = dynamic(() => import('@components/Snackbar/Snackbar'), { ssr: false });
 
 // Import Styles
 import {
@@ -35,17 +38,20 @@ import {
     ForgotFormText,
     ForgotFormTitle,
     ForgotSection,
-} from '@/styles/pages/forgot';
+} from '@styles/pages/forgot';
+
+// Define Initial Form Values
+const initialValues: ForgotInitialValues = {
+    email: '',
+};
 
 // Define Forgot Page
 const ForgotPage = () => {
     // Define Open Snackbar State
-    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
 
-    // Define Initial Form Values
-    const initialValues = {
-        email: '',
-    };
+    // Define Router
+    const router = useRouter();
 
     // Define Handle Submit
     const handleSubmit = async (values: FormikValues) => {
@@ -58,7 +64,7 @@ const ForgotPage = () => {
 
     // Define Handle Click Back
     const handleClickBack = () => {
-        Router.push('/login');
+        router.push('/login');
     };
 
     // Define Handle Click Show Snackbar
@@ -69,7 +75,7 @@ const ForgotPage = () => {
     return (
         <>
             <Head>
-                <title>Lupa Password - Redbox</title>
+                <title>Lupa Password - Dashboard Accounting</title>
             </Head>
             <Formik initialValues={initialValues} validationSchema={forgotSchema} onSubmit={handleSubmit}>
                 {({ isSubmitting, isValid, dirty }) => (
@@ -77,7 +83,7 @@ const ForgotPage = () => {
                         <ForgotBoxWrapper>
                             <ForgotFormContainer autoComplete="off">
                                 <ForgotFormBoxHeader>
-                                    <Image alt="Logo QurbanQu" src={Logo} width={150} height={150} />
+                                    <Image alt="Logo Image" src={Logo} width={160} height={150} />
                                     <ForgotFormTitle>Atur Ulang Kata Sandi</ForgotFormTitle>
                                     <ForgotFormText>
                                         Masukkan email yang terdaftar. Kami akan mengirimkan kode verifikasi untuk atur ulang kata sandi.

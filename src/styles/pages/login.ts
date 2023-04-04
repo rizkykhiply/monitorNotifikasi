@@ -101,18 +101,13 @@ export const LoginFormForgot = styled(Link)(({ theme }) => ({
 }));
 
 export const LoginFormButton = styled(Button)(({ theme }) => ({
-    background: theme.palette.primary.main,
     ':disabled': {
         pointerEvents: 'unset',
         cursor: 'not-allowed',
-        opacity: 0.3,
-    },
-    ':hover': {
-        backgroundColor: theme.palette.primary.light,
     },
 }));
 
-export const LoginCarouselContainer = styled(Box)(({ theme }) => ({
+export const LoginImageContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -123,6 +118,18 @@ export const LoginCarouselContainer = styled(Box)(({ theme }) => ({
     background: theme.palette.background.default,
 }));
 
-export const LoginCarouselBoxWrapper = styled(Box)(({ theme }) => ({
-    width: '100%',
+export const LoginImageTitle = styled(Typography)(({ theme }) => ({
+    color: '#FFF',
+    fontSize: theme.typography.h4.fontSize,
+    fontWeight: theme.typography.h4.fontWeight,
+    textAlign: 'center',
+    marginBottom: '10px',
+}));
+
+export const LoginImageText = styled(Typography)(({ theme }) => ({
+    maxWidth: '500px',
+    color: '#FFF',
+    fontSize: theme.typography.subtitle1.fontSize,
+    fontWeight: theme.typography.subtitle1.fontWeight,
+    textAlign: 'center',
 }));

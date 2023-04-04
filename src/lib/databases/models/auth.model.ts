@@ -1,8 +1,8 @@
 // Import Base Query
-import { baseQuery } from '@/lib/databases';
+import { baseQuery } from '@lib/databases';
 
 // Import Interfaces
-import { AuthFindOneByUsername } from '@/interfaces/models';
+import { AuthFindOneByUsername } from '@interfaces/models';
 
 // Import Entities
 import { User } from '../entities';

@@ -1,7 +1,11 @@
 // Define Props Navbar Interface
 export interface PropsNavbar {
     drawerWidth: number;
-    fullname: string;
-    role: string;
     handleDrawerToggle(): void;
+}
+
+// Define State Navbar Interface
+export interface StateNavbar {
+    name: string;
+    role: string;
 }

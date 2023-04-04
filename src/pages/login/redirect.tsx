@@ -2,7 +2,7 @@
 import { GetServerSideProps, NextApiRequest } from 'next';
 
 // Import Libs
-import { getLoginSession } from '@/lib/auth/auth';
+import { getLoginSession } from '@lib/auth/auth';
 
 // Define Redirect Page
 const RedirectPage = () => {

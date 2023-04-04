@@ -51,9 +51,7 @@ export const ContentSidebar = styled(Drawer, {
     '& .MuiDrawer-paper': {
         boxSizing: 'border-box',
         width: width,
-        background: '#fff',
-        border: 'none',
-        boxShadow: theme.shadows[4],
+        background: theme.palette.background.paper,
     },
 }));
 

@@ -1,4 +1,4 @@
-// Define Interface Auth By Username
+// Define Auth By Username Interface
 export interface AuthFindOneByUsername {
     username: string;
 }

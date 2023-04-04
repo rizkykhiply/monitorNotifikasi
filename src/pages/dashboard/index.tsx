@@ -1,13 +1,13 @@
 // Import Modules
-import Head from 'next/head';
 import { ReactElement } from 'react';
 import { GetServerSideProps, NextApiRequest } from 'next';
+import Head from 'next/head';
 
 // Import Libs
-import { getLoginSession } from '@/lib/auth/auth';
+import { getLoginSession } from '@lib/auth/auth';
 
 // Import Components
-import LayoutComponent from '@/components/Layout/Layout';
+import LayoutComponent from '@components/Layout/Layout';
 
 // Define Dashboard Page
 const DashboardPage = () => {

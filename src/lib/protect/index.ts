@@ -6,7 +6,14 @@ import NextCors from 'nextjs-cors';
 import { getLoginSession } from '../auth/auth';
 
 // Import Constants
-import { API_INTERNAL_SERVER_ERROR, API_METHOD_NOT_ALLOWED, API_UNAUTHORIZED, SERVICE_BASE_URL } from '../constants';
+import {
+    API_FORBIDDEN,
+    API_INTERNAL_SERVER_ERROR,
+    API_METHOD_NOT_ALLOWED,
+    API_UNAUTHORIZED,
+    SERVICE_BASE_URL,
+    SERVICE_PUBLIC_URL,
+} from '../constants';
 
 // Import Logs
 import { logs } from '../logs';
@@ -14,28 +21,37 @@ import { logs } from '../logs';
 // Define Handler Protect Api
 const handlerProtectApi = (handler: (req: NextApiRequest, res: NextApiResponse) => Promise<void>, method: string[]) => {
     return async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
-        const getUrl = req?.url ? req.url : '';
-        const getMethod = req?.method ? req.method : '';
         try {
+            const getHeaderReferer = new URL(req.headers.referer ? req.headers.referer : '').origin;
+            const getMethod = req?.method ? req.method : '';
+
+            if (getHeaderReferer !== SERVICE_PUBLIC_URL) {
+                API_FORBIDDEN(res);
+            }
+
             await NextCors(req, res, {
                 origin: SERVICE_BASE_URL,
             });
 
             const getSession = await getLoginSession(req);
+            const getMethodAllow = method.includes(getMethod);
 
             if (!getSession) {
                 return API_UNAUTHORIZED(res);
             }
-            if (!method.includes(getMethod) || getMethod === 'OPTIONS') {
+            if (!getMethodAllow) {
                 return API_METHOD_NOT_ALLOWED(res);
             }
+
             await handler(req, res);
         } catch (error) {
+            const getUrl = req.url ? req.url : '';
+
             logs(getUrl).error(error);
             return API_INTERNAL_SERVER_ERROR(res);
         }
     };
 };
 
-// Export Handler
+// Export Handler Protect Api
 export { handlerProtectApi };

@@ -1,2 +1,2 @@
-// Export All Models Interface
+// Export All Models Interfaces
 export * from './auth';
