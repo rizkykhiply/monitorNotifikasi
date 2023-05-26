@@ -5,7 +5,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { MenuList } from '@interfaces/pages/api';
 
 // Import Libs
-import { API_NOT_FOUND, API_OK } from '@lib/constants';
+import { getLoginSession } from '@lib/auth/auth';
+import { API_NOT_FOUND, API_OK, API_UNAUTHORIZED } from '@lib/constants';
 import { models } from '@lib/databases/models';
 import { handlerProtectApi } from '@lib/protect';
 
@@ -13,7 +14,7 @@ import { handlerProtectApi } from '@lib/protect';
 import { Menu } from '@lib/databases/entities';
 
 // Define Mapping Menu
-const getMappingMenu = (menu: Menu[]) => {
+const getMappingMenu = async (menu: Menu[]): Promise<MenuList[]> => {
     const menuList: MenuList[] = [];
 
     for (let index = 0; index < menu.length; index++) {
@@ -42,14 +43,20 @@ const getMappingMenu = (menu: Menu[]) => {
 };
 
 // Define Handler Api List Menu
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+    const getSession = await getLoginSession(req);
+
+    if (!getSession) {
+        return API_UNAUTHORIZED(res);
+    }
+
     const getMenu = await models.menu.findAllMenu();
 
     if (getMenu.length === 0) {
         return API_NOT_FOUND(res);
     }
 
-    const getListMenu = getMappingMenu(getMenu);
+    const getListMenu = await getMappingMenu(getMenu);
     return API_OK(res, getListMenu);
 };
 

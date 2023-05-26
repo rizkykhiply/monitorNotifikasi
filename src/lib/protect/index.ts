@@ -11,6 +11,7 @@ import {
     API_INTERNAL_SERVER_ERROR,
     API_METHOD_NOT_ALLOWED,
     API_UNAUTHORIZED,
+    SERVER_ERROR_MESSAGE,
     SERVICE_BASE_URL,
     SERVICE_PUBLIC_URL,
 } from '../constants';
@@ -33,22 +34,18 @@ const handlerProtectApi = (handler: (req: NextApiRequest, res: NextApiResponse) 
                 origin: SERVICE_BASE_URL,
             });
 
-            const getSession = await getLoginSession(req);
             const getMethodAllow = method.includes(getMethod);
 
-            if (!getSession) {
-                return API_UNAUTHORIZED(res);
-            }
             if (!getMethodAllow) {
                 return API_METHOD_NOT_ALLOWED(res);
             }
 
             await handler(req, res);
         } catch (error) {
-            const getUrl = req.url ? req.url : '';
-
+            let getUrl = req.url ? req.url : 'middleware';
             logs(getUrl).error(error);
-            return API_INTERNAL_SERVER_ERROR(res);
+
+            return API_INTERNAL_SERVER_ERROR(res, SERVER_ERROR_MESSAGE);
         }
     };
 };

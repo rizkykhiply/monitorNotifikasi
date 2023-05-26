@@ -9,7 +9,7 @@ import Collapse from '@mui/material/Collapse';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 // Import Interfaces
-import { PropsList } from '@interfaces/components/sidebar';
+import { PropsList } from '@interfaces/components';
 
 // Import Styles
 import { SidebarButton, SidebarIconBox, SidebarIconItem, SidebarList, SidebarTextItem } from '@styles/components';
@@ -19,7 +19,7 @@ const NestedListComponent = (props: PropsList) => {
     const { menu, currRoute } = props;
 
     // Define State Is Open Collapse
-    const [isOpen, setIsOpen] = useState<boolean>(true);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
 
     // Define Handle Is Open Collapse
     const handleIsOpen = () => {

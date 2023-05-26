@@ -3,24 +3,20 @@ import { memo } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
-// Import Material Modules
-import Box from '@mui/material/Box';
-
 // Import Material Icons
 import * as Icon from '@mui/icons-material';
 
 // Import Hooks
-import { useHooksMasterMenu } from '@hooks/index';
+import { useHooksMenu } from '@hooks/index';
 
 // Import Assets
-import Logo from '../../../public/logo.png';
+import Logo from '../../../public/example-logo.png';
 
 // Import Components
-import SingleListComponent from './Menu/SingleList';
-import NestedListComponent from './Menu/NestedList';
+import { NestedList, SingleList } from './Menu';
 
 // Import Styles
-import { SidebarHeader, SidebarHeaderText } from '@styles/components';
+import { SidebarHeader, SidebarHeaderText, SidebarListBox } from '@styles/components';
 
 // Define Sidebar Component
 const SidebarComponent = () => {
@@ -28,10 +24,10 @@ const SidebarComponent = () => {
     const router = useRouter();
     const currentRoute = router.pathname;
 
-    // Define Hooks Master Menu
-    const getMasterMenu = useHooksMasterMenu();
+    // Define Hooks Menu
+    const getMasterMenu = useHooksMenu();
 
-    // Mapping List Menu
+    // Define Mapping List Menu
     const listMenu = getMasterMenu?.map((value) => {
         const menu = value.menu;
         const subMenu = value.subMenu;
@@ -49,16 +45,16 @@ const SidebarComponent = () => {
         <>
             <SidebarHeader>
                 <Image src={Logo} alt="Logo Image" width={45} height={40} />
-                <SidebarHeaderText>Digital Sales and Consumer Promotions</SidebarHeaderText>
+                <SidebarHeaderText>Dashboard Admin Template</SidebarHeaderText>
             </SidebarHeader>
             {listMenu?.map((menu) => (
-                <Box key={menu.id}>
+                <SidebarListBox key={menu.id}>
                     {menu.subMenu.length === 0 ? (
-                        <SingleListComponent menu={{ ...menu, subMenu: menu.subMenu }} currRoute={currentRoute} />
+                        <SingleList menu={{ ...menu, subMenu: menu.subMenu }} currRoute={currentRoute} />
                     ) : (
-                        <NestedListComponent menu={{ ...menu, subMenu: menu.subMenu }} currRoute={currentRoute} />
+                        <NestedList menu={{ ...menu, subMenu: menu.subMenu }} currRoute={currentRoute} />
                     )}
-                </Box>
+                </SidebarListBox>
             ))}
         </>
     );

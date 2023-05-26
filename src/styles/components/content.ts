@@ -51,7 +51,9 @@ export const ContentSidebar = styled(Drawer, {
     '& .MuiDrawer-paper': {
         boxSizing: 'border-box',
         width: width,
-        background: theme.palette.background.paper,
+        background: '#FFF',
+        border: 'none',
+        boxShadow: '5px 0 15px rgba(0, 0, 0, 0.05)',
     },
 }));
 
@@ -61,8 +63,7 @@ export const ContentMain = styled(Box, { shouldForwardProp: (props) => shouldFor
             width: `calc(100% - ${width}px)`,
         },
         flexGrow: 1,
-        padding: '30px ',
-        background: theme.palette.background.paper,
+        padding: '0 30px',
         minHeight: '100vh',
     }),
 );

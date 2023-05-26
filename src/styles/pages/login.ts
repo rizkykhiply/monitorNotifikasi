@@ -4,7 +4,6 @@ import { Form } from 'formik';
 // Import Material Modules
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
@@ -81,7 +80,7 @@ export const LoginFormSubText = styled(Typography)(({ theme }) => ({
 }));
 
 export const LoginFormControl = styled(FormControl)(({ theme }) => ({
-    ':not(:nth-last-of-type(2))': {
+    ':not(:nth-last-of-type(3))': {
         marginBottom: '30px',
     },
 }));
@@ -95,16 +94,28 @@ export const LoginFormBoxForgot = styled(Box)(({ theme }) => ({
 export const LoginFormForgot = styled(Link)(({ theme }) => ({
     color: 'inherit',
     textDecoration: 'none',
-    fontSize: '12px',
+    fontSize: '13px',
     fontWeight: theme.typography.fontWeightLight,
     cursor: 'pointer',
 }));
 
-export const LoginFormButton = styled(Button)(({ theme }) => ({
-    ':disabled': {
-        pointerEvents: 'unset',
-        cursor: 'not-allowed',
-    },
+export const LoginFormBoxRegister = styled(Box)(({ theme }) => ({
+    textAlign: 'center',
+    marginTop: '20px',
+}));
+
+export const LoginFormRegisterText = styled(Typography)(({ theme }) => ({
+    color: 'inherit',
+    fontSize: '13px',
+    fontWeight: theme.typography.fontWeightLight,
+}));
+
+export const LoginFormRegister = styled(Link)(({ theme }) => ({
+    color: theme.palette.primary.main,
+    textDecoration: 'none',
+    fontSize: '13px',
+    fontWeight: theme.typography.fontWeightBold,
+    cursor: 'pointer',
 }));
 
 export const LoginImageContainer = styled(Box)(({ theme }) => ({

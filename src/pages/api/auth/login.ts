@@ -6,10 +6,10 @@ import nextConnect from 'next-connect';
 // Import Libs
 import { localStrategy } from '@lib/auth/strategy';
 import { setLoginSession } from '@lib/auth/auth';
-import { API_OK, API_UNAUTHORIZED } from '@lib/constants';
+import { API_CREATED, API_UNAUTHORIZED, LOGIN_ERROR_MESSAGE } from '@lib/constants';
 
 // Define Request Authentication
-const authenticate = (method: string, req: NextApiRequest, res: NextApiResponse) =>
+const authenticate = (method: string, req: NextApiRequest, res: NextApiResponse): Promise<unknown> =>
     new Promise((resolve, reject) => {
         passport.authenticate(method, { session: false }, (error: unknown, token: unknown) => {
             if (error) {
@@ -33,10 +33,8 @@ export default nextConnect()
 
             await setLoginSession(res, getSession);
 
-            return API_OK(res, { done: true });
+            return API_CREATED(res);
         } catch (error) {
-            if (error instanceof Error) {
-                return API_UNAUTHORIZED(res);
-            }
+            return API_UNAUTHORIZED(res, LOGIN_ERROR_MESSAGE);
         }
     });

@@ -1,5 +1,6 @@
 // Define Props Navbar Interface
 export interface PropsNavbar {
+    window?: () => Window;
     drawerWidth: number;
     handleDrawerToggle(): void;
 }

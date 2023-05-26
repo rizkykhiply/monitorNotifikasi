@@ -4,7 +4,6 @@ import { Form } from 'formik';
 // Import Material Modules
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
@@ -62,15 +61,7 @@ export const ForgotFormText = styled(Typography)(({ theme }) => ({
 }));
 
 export const ForgotFormControl = styled(FormControl)(({ theme }) => ({
-    margin: '0',
-}));
-
-export const ForgotFormButton = styled(Button)(({ theme }) => ({
-    ':disabled': {
-        pointerEvents: 'unset',
-        cursor: 'not-allowed',
-    },
-    margin: '30px 0',
+    marginBottom: '30px',
 }));
 
 export const ForgotFormBack = styled(Link)(({ theme }) => ({
@@ -79,7 +70,8 @@ export const ForgotFormBack = styled(Link)(({ theme }) => ({
 
     color: 'inherit',
     textDecoration: 'none',
-    fontSize: '12px',
+    fontSize: '13px',
     fontWeight: theme.typography.fontWeightLight,
+    marginTop: '20px',
     cursor: 'pointer',
 }));

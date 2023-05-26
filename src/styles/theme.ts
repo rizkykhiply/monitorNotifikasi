@@ -9,15 +9,15 @@ const theme = createTheme({
             disabled: '#AAB4C8',
         },
         primary: {
-            main: '#C62128',
-            dark: '#D5232B',
+            main: '#FF9933',
+            dark: '#FFA244',
         },
         text: {
             primary: '#333',
             secondary: '#8C8C8C',
         },
         background: {
-            default: 'linear-gradient(147deg, #C62128 0%, #A00000 74%)',
+            default: 'linear-gradient(316deg, #D14545 0%, #FF9933 74%)',
             paper: '#F3F3F3',
         },
     },

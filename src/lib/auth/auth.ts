@@ -8,8 +8,9 @@ import { SERVICE_TOKEN_MAX_AGE, SERVICE_TOKEN_SECRET } from '../constants';
 // Import Cookies
 import { getTokenCookie, setTokenCookie } from './cookies';
 
-// Import Entities
-import { User } from '../databases/entities';
+// Import Models
+import { models } from '@lib/databases/models';
+import { User } from '@lib/databases/entities';
 
 // Define Get Login Session
 const getLoginSession = async (req: NextApiRequest): Promise<User | undefined> => {
@@ -31,6 +32,7 @@ const getLoginSession = async (req: NextApiRequest): Promise<User | undefined> =
 // Define Set Login Session
 const setLoginSession = async (res: NextApiResponse, session: User): Promise<void> => {
     const setPayload = {
+        id: session.id,
         username: session.username,
         role: session.role,
         name: session.name,
@@ -38,6 +40,8 @@ const setLoginSession = async (res: NextApiResponse, session: User): Promise<voi
         maxAge: SERVICE_TOKEN_MAX_AGE,
     };
     const setToken = await Iron.seal(setPayload, SERVICE_TOKEN_SECRET, Iron.defaults);
+    await models.user.updateUserLogin({ username: session.username });
+
     setTokenCookie(res, setToken);
 };
 

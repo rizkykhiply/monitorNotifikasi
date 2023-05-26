@@ -14,7 +14,7 @@ const DashboardPage = () => {
     return (
         <>
             <Head>
-                <title>Dashboard - Redbox</title>
+                <title>Dashboard - Dashboard Template</title>
             </Head>
         </>
     );

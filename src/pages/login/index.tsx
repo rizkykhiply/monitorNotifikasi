@@ -1,6 +1,6 @@
 // Import Modules
 import { useCallback, useState } from 'react';
-import { Field, Formik, FormikValues } from 'formik';
+import { Field, Formik, FormikHelpers, FormikValues } from 'formik';
 import { GetServerSideProps, NextApiRequest } from 'next';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
@@ -19,15 +19,15 @@ import VisibilityOffOutlined from '@mui/icons-material/VisibilityOffOutlined';
 
 // Import Interfaces
 import { LoginInitialValues } from '@interfaces/pages';
+import { SnackbarState } from '@interfaces/components';
 
 // Import Libs
 import { getLoginSession } from '@lib/auth/auth';
 import { loginSchema } from '@lib/validation';
-import { Api } from '@lib/api';
 
 // Import Assets
-import Logo from '../../../public/logo.png';
-import Accounting from '../../../public/illustration_accounting.png';
+import Logo from '../../../public/example-logo.png';
+import Illustratrion from '../../../public/illustration.png';
 
 // Import Components
 const InputComponent = dynamic(() => import('@components/Form/Input'), { ssr: false });
@@ -39,11 +39,13 @@ import {
     LoginBoxWrapper,
     LoginFormBoxForgot,
     LoginFormBoxHeader,
+    LoginFormBoxRegister,
     LoginFormBoxWrapper,
-    LoginFormButton,
     LoginFormContainer,
     LoginFormControl,
     LoginFormForgot,
+    LoginFormRegister,
+    LoginFormRegisterText,
     LoginFormSubText,
     LoginFormText,
     LoginImageContainer,
@@ -52,6 +54,7 @@ import {
     LoginLogoText,
     LoginSection,
 } from '@styles/pages/login';
+import { ButtonComponent } from '@styles/components';
 
 // Define Initial Form Values
 const initialValues: LoginInitialValues = {
@@ -65,26 +68,44 @@ const LoginPage = () => {
     const [openPassword, setOpenPassword] = useState<boolean>(false);
 
     // Define Open Snackbar State
-    const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
+    const [openSnackbar, setOpenSnackbar] = useState<SnackbarState>({
+        open: false,
+        type: 'error',
+        message: '',
+    });
 
     // Define Router
     const router = useRouter();
 
     // Define Handle Submit
-    const handleSubmit = useCallback(async (values: FormikValues) => {
-        try {
-            let response = await Api.post('/api/auth/login', { ...values });
-            if (response.status === 200) {
-                router.push('login/redirect');
+    const handleSubmit = useCallback(
+        async (values: FormikValues, helpers: FormikHelpers<LoginInitialValues>) => {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-type': 'application/json' },
+                body: JSON.stringify(values),
+            });
+            const getDetailResponse = await response.json();
+            const getMessage = getDetailResponse.detail;
+
+            if (response.status === 201) {
+                router.push('/login/redirect');
             }
-        } catch (error) {
-            setOpenSnackbar((open) => !open);
-        }
-    }, []);
+            if (response.status >= 400) {
+                setOpenSnackbar((prev) => ({ ...prev, open: !prev.open, message: getMessage }));
+            }
+        },
+        [router],
+    );
 
     // Define Handle Click Show Password
     const handleClickShowPassword = () => {
-        setOpenPassword(!openPassword);
+        setOpenPassword((open) => !open);
+    };
+
+    // Define Handle Click Close Snackbar
+    const handleClickCloseSnackbar = () => {
+        setOpenSnackbar((prev) => ({ ...prev, open: !prev.open }));
     };
 
     // Define Handle Click Forgot
@@ -92,15 +113,15 @@ const LoginPage = () => {
         router.push('/forgot');
     };
 
-    // Define Handle Click Show Snackbar
-    const handleClickCloseSnackbar = () => {
-        setOpenSnackbar(!openSnackbar);
+    // Define Handle Click Register
+    const handleClickRegister = () => {
+        router.push('/register');
     };
 
     return (
         <>
             <Head>
-                <title>Login - Dashboard Accounting</title>
+                <title>Masuk - Dashboard Template</title>
             </Head>
             <Formik initialValues={initialValues} validationSchema={loginSchema} onSubmit={handleSubmit}>
                 {({ isSubmitting, isValid, dirty }) => (
@@ -109,13 +130,13 @@ const LoginPage = () => {
                             <LoginFormBoxWrapper>
                                 <LoginFormContainer autoComplete="off">
                                     <LoginBoxLogo>
-                                        <Image alt="Logo Image" src={Logo} width={45} height={40} />
-                                        <LoginLogoText>Digital Sales and Consumer Promotions</LoginLogoText>
+                                        <Image alt="Logo Image" src={Logo} width={60} height={60} />
+                                        <LoginLogoText>Dashboard Admin Template</LoginLogoText>
                                     </LoginBoxLogo>
                                     <LoginFormBoxHeader>
-                                        <LoginFormText>Log in</LoginFormText>
+                                        <LoginFormText>Masuk</LoginFormText>
                                         <LoginFormSubText>
-                                            Selamat Datang di Dashboard Accounting. Silahkan masuk menggunakan akun anda.
+                                            Selamat Datang di Dashboard Template. Silahkan masuk menggunakan akun anda.
                                         </LoginFormSubText>
                                     </LoginFormBoxHeader>
                                     <LoginFormControl fullWidth variant="standard">
@@ -158,22 +179,27 @@ const LoginPage = () => {
                                     <LoginFormBoxForgot>
                                         <LoginFormForgot onClick={handleClickForgot}>Lupa Password?</LoginFormForgot>
                                     </LoginFormBoxForgot>
-                                    <LoginFormButton
+                                    <ButtonComponent
                                         variant="contained"
                                         type="submit"
                                         disabled={isSubmitting || !isValid || !dirty}
                                         fullWidth
                                     >
-                                        Log in
-                                    </LoginFormButton>
+                                        Masuk
+                                    </ButtonComponent>
+                                    <LoginFormBoxRegister>
+                                        <LoginFormRegisterText>
+                                            Belum punya akun? <LoginFormRegister onClick={handleClickRegister}>Daftar</LoginFormRegister>
+                                        </LoginFormRegisterText>
+                                    </LoginFormBoxRegister>
                                 </LoginFormContainer>
                             </LoginFormBoxWrapper>
                             <LoginImageContainer>
-                                <Image alt="Image" src={Accounting} width={600} height={400} />
-                                <LoginImageTitle>Accounting</LoginImageTitle>
+                                <Image alt="Image" src={Illustratrion} width={400} height={400} />
+                                <LoginImageTitle>Lorem Ipsum</LoginImageTitle>
                                 <LoginImageText>
-                                    Process of recording financial transactions to a business includes summarizing, analyzing, and
-                                    reporting.
+                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores dolor officia laudantium sunt sit,
+                                    modi labore? Labore, iusto nesciunt.
                                 </LoginImageText>
                             </LoginImageContainer>
                         </LoginBoxWrapper>
@@ -181,10 +207,10 @@ const LoginPage = () => {
                 )}
             </Formik>
             <SnackbarComponent
-                message="Username atau password salah, silahkan coba kembali"
+                message={openSnackbar.message}
                 position={{ vertical: 'top', horizontal: 'center' }}
-                type="error"
-                openSnackbar={openSnackbar}
+                type={openSnackbar.type}
+                open={openSnackbar.open}
                 handleClose={handleClickCloseSnackbar}
             />
         </>

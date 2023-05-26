@@ -8,9 +8,9 @@ const PersistGate = ({ children }: PropsWithChildren<unknown>) => {
     const { actions } = useContext(StoreContext);
 
     useEffect(() => {
-        let storage = localStorage.getItem('template-2021');
+        let storage = localStorage.getItem('template-dashboard');
         if (!storage) {
-            localStorage.setItem('template-2021', JSON.stringify(INITIAL_STATE));
+            localStorage.setItem('template-dashboard', JSON.stringify(INITIAL_STATE));
         }
         // actions.UPDATE_PERSIST(storage ? JSON.parse(storage) : INITIAL_STATE);
     }, []);

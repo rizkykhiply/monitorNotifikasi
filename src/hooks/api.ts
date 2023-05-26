@@ -1,4 +1,4 @@
-// Define Api Url Master Menu
+// Define Api Url
 const getUrlMasterMenu = '/api/master/list-menu';
 
 // Define All Api Url

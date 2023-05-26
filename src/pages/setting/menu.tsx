@@ -3,20 +3,31 @@ import { ReactElement } from 'react';
 import { GetServerSideProps, NextApiRequest } from 'next';
 import Head from 'next/head';
 
+// Import Interfaces
+import { PropsSettingMenu } from '@interfaces/pages';
+
+// Import Hooks
+import { useHooksMenu } from '@hooks/index';
+
 // Import Libs
 import { getLoginSession } from '@lib/auth/auth';
+import { models } from '@lib/databases/models';
 
 // Import Components
 import LayoutComponent from '@components/Layout/Layout';
-import { models } from '@lib/databases/models';
 
 // Define Setting Menu Page
-const SettingMenuPage = (props: any) => {
-    console.log(props);
+const SettingMenuPage = (props: PropsSettingMenu) => {
+    // Destructuring Props
+    const { fallback } = props;
+
+    // Define Hooks Master Menu
+    const getMasterMenu = useHooksMenu(fallback);
+
     return (
         <>
             <Head>
-                <title>Setting Menu - Redbox</title>
+                <title>Setting Menu - Dashboard Template</title>
             </Head>
         </>
     );

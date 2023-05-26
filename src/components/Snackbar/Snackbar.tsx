@@ -8,12 +8,15 @@ import Alert from '@mui/material/Alert';
 // Import Interfaces
 import { PropsSnackbar } from '@interfaces/components';
 
-// Define Base Snackbar Component
+// Define Snackbar Component
 const SnackbarComponent = (props: PropsSnackbar) => {
+    // Destructuring Props
+    const { position, open, handleClose, type, message } = props;
+
     return (
-        <Snackbar anchorOrigin={props.position} open={props.openSnackbar} onClose={props.handleClose}>
-            <Alert onClose={props.handleClose} variant="filled" severity={props.type} sx={{ background: '#C62128' }}>
-                {props.message}
+        <Snackbar autoHideDuration={5000} anchorOrigin={position} open={open} onClose={handleClose}>
+            <Alert onClose={handleClose} variant="filled" severity={type}>
+                {message}
             </Alert>
         </Snackbar>
     );

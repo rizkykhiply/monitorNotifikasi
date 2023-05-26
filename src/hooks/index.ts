@@ -2,22 +2,21 @@
 import useSWR from 'swr';
 
 // Import Interfaces
-import { HooksMasterMenu } from '@interfaces/hooks';
-
-// Import Libs
-import { Api } from '@lib/api';
+import { HooksMenu, PropsHooks } from '@interfaces/hooks';
 
 // Import Url Api
 import { getUrlMasterMenu } from './api';
 
 // Define Base Fetcher
-const fetcher = (url: string) => Api.get(url).then((res) => res.data);
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-// Define Hooks Master Menu
-const useHooksMasterMenu = (): HooksMasterMenu[] => {
-    const { data } = useSWR(getUrlMasterMenu, fetcher);
+// Define Hooks Menu
+const useHooksMenu = (fallback?: PropsHooks): HooksMenu[] => {
+    const config = fallback ? { fallbackData: fallback['/api/master/list-menu'] } : {};
+    const { data } = useSWR(getUrlMasterMenu, fetcher, config);
+
     return data?.data;
 };
 
 // Export All Hooks
-export { useHooksMasterMenu };
+export { useHooksMenu };

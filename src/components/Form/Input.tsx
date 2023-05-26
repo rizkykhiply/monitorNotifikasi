@@ -19,8 +19,8 @@ const InputComponent: FC<FieldProps & TextFieldProps> = (props) => {
             variant="outlined"
             error={error ?? Boolean(isTouched && errorMessage)}
             helperText={helperText ?? (isTouched && errorMessage)}
-            FormHelperTextProps={{ style: { position: 'absolute', top: '55px' } }}
-            inputProps={{ style: { fontSize: '14px' } }}
+            FormHelperTextProps={{ sx: { position: 'absolute', top: '55px' } }}
+            inputProps={{ sx: { fontSize: '14px' } }}
         />
     );
 };

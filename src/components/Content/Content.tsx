@@ -32,7 +32,7 @@ const ContentComponent = (props: PropsContent) => {
 
     return (
         <ContentContainer>
-            <Navbar drawerWidth={drawerWidth} handleDrawerToggle={handleClickDrawerToggle} />
+            <Navbar window={window} drawerWidth={drawerWidth} handleDrawerToggle={handleClickDrawerToggle} />
             <ContentContainerSidebar component="nav" width={drawerWidth}>
                 <ContentSidebarMobile
                     container={window && window().document.body}

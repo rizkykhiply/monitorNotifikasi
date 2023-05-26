@@ -13,7 +13,6 @@ import { MyAppProps } from '@interfaces/pages';
 
 // Import Libs
 import { createEmotionCache } from '@lib/utils';
-import { Api } from '@lib/api';
 
 // Import Context
 import { StoreContextProvider } from '@context/store/context';
@@ -38,12 +37,12 @@ const App = (props: MyAppProps) => {
     Router.events.on('routeChangeComplete', nProgress.done);
 
     return (
-        <SWRConfig value={{ fetcher: (url: string) => Api.get(url).then((res) => res.data) }}>
+        <SWRConfig value={{ fetcher: (url: string) => fetch(url).then((res) => res.json()) }}>
+            <Head>
+                <meta name="viewport" content="initial-scale=1, width=device-width" />
+            </Head>
             <StoreContextProvider>
                 <CacheProvider value={emotionCache}>
-                    <Head>
-                        <meta name="viewport" content="initial-scale=1, width=device-width" />
-                    </Head>
                     <ThemeProvider theme={theme}>
                         <CssBaseline />
                         {getLayout(<Component {...pageProps} />)}

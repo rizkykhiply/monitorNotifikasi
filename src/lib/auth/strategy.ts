@@ -13,13 +13,13 @@ const validatePassword = (user: User, password: string): boolean => {
 
 // Define Local Strategy
 const localStrategy = new Local.Strategy((username, password, done) => {
-    models.auth
-        .findOneByUsername({ username })
+    models.user
+        .findOneUserAccess({ username })
         .then((user) => {
             if (user && validatePassword(user, password)) {
                 done(null, user);
             } else {
-                done(new Error('invalid username or password'));
+                done(new Error('invalid'));
             }
         })
         .catch((err) => done(err));

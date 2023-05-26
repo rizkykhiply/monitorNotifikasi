@@ -9,11 +9,11 @@ const actionTypes = (state: InitialState, { type, payload }: Action) => {
     switch (type) {
         case actions.CLEAR_SESSION:
             return INITIAL_STATE;
-        case actions.UPDATE_MODAL:
+        case actions.UPDATE_MENU:
             return {
                 ...state,
-                modal: {
-                    open: payload.open,
+                menu: {
+                    name: payload.name,
                 },
             };
         case actions.UPDATE_PAGINATION:

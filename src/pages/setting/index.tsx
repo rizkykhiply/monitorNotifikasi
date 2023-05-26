@@ -9,12 +9,12 @@ import { getLoginSession } from '@lib/auth/auth';
 // Import Components
 import LayoutComponent from '@components/Layout/Layout';
 
-// Define Transaction Outcome Page
-const TransactionOutcomePage = () => {
+// Define Setting Page
+const SettingPage = () => {
     return (
         <>
             <Head>
-                <title>Transaction Outcome - Dashboard Accounting</title>
+                <title>Setting - Dashboard Template</title>
             </Head>
         </>
     );
@@ -38,8 +38,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
 };
 
-// Define Transaction Outcome Layout
-TransactionOutcomePage.getLayout = (page: ReactElement) => <LayoutComponent>{page}</LayoutComponent>;
+// Define Setting Layout
+SettingPage.getLayout = (page: ReactElement) => <LayoutComponent>{page}</LayoutComponent>;
 
-// Export Transaction Outcome Page
-export default TransactionOutcomePage;
+// Export Setting Page
+export default SettingPage;

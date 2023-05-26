@@ -1,6 +1,11 @@
 // Import Modules
 import * as Icon from '@mui/icons-material';
 
+// Define Props Hooks
+export interface PropsHooks {
+    [fallback: string]: any;
+}
+
 // Define Menu Interface
 interface Menu {
     id: number;
@@ -9,8 +14,8 @@ interface Menu {
     icon: keyof typeof Icon;
 }
 
-// Define Hooks Master Menu Interface
-export interface HooksMasterMenu {
+// Define Hooks Menu Interface
+export interface HooksMenu {
     menu: Menu;
     subMenu: Menu[];
 }

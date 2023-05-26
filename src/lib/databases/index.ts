@@ -1,5 +1,5 @@
 // Import Modules
-import mysql from 'serverless-mysql';
+import { Pool, QueryResult } from 'pg';
 
 // Import Constants
 import {
@@ -11,24 +11,21 @@ import {
 } from '../constants';
 
 // Define Database
-const database = mysql({
-    config: {
-        host: SERVICE_DATABASE_HOST,
-        port: SERVICE_DATABASE_PORT,
-        user: SERVICE_DATABASE_USER,
-        password: SERVICE_DATABASE_PASS,
-        database: SERVICE_DATABASE_NAME,
-    },
-    library: require('mysql2'),
+const database = new Pool({
+    host: SERVICE_DATABASE_HOST,
+    port: SERVICE_DATABASE_PORT,
+    user: SERVICE_DATABASE_USER,
+    password: SERVICE_DATABASE_PASS,
+    database: SERVICE_DATABASE_NAME,
 });
 
 // Define Base Query
-const baseQuery = async <T>(query: string, params: (string | number)[]): Promise<T[] & T> => {
+const baseQuery = async <T>(query: string, params: (string | number)[]): Promise<any> => {
     return new Promise(async (resolve, reject) => {
         try {
-            const result = await database.query<T[] & T>(query, params);
-            await database.end();
-            resolve(result);
+            const connection = await database.connect();
+            const result = await connection.query<T[] & T>(query, params);
+            resolve(result.rows);
         } catch (error) {
             reject(error);
         }

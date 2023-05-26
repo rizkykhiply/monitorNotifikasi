@@ -12,6 +12,13 @@ export interface PropsSnackbar {
     message: string;
     position: PositionSnackbar;
     type: AlertColor;
-    openSnackbar: boolean;
+    open: boolean;
     handleClose: () => void;
+}
+
+// Define Snackbar State Interface
+export interface SnackbarState {
+    open: boolean;
+    type: AlertColor;
+    message: string;
 }

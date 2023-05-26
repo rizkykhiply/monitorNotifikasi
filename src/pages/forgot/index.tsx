@@ -18,10 +18,9 @@ import { ForgotInitialValues } from '@interfaces/pages';
 
 // Import Libs
 import { forgotSchema } from '@lib/validation';
-import { Api } from '@lib/api';
 
 // Import Assets
-import Logo from '../../../public/logo.png';
+import Logo from '../../../public/example-logo.png';
 
 // Import Components
 const InputComponent = dynamic(() => import('@components/Form/Input'), { ssr: false });
@@ -31,7 +30,6 @@ const SnackbarComponent = dynamic(() => import('@components/Snackbar/Snackbar'),
 import {
     ForgotBoxWrapper,
     ForgotFormBack,
-    ForgotFormButton,
     ForgotFormBoxHeader,
     ForgotFormContainer,
     ForgotFormControl,
@@ -39,6 +37,7 @@ import {
     ForgotFormTitle,
     ForgotSection,
 } from '@styles/pages/forgot';
+import { ButtonComponent } from '@styles/components';
 
 // Define Initial Form Values
 const initialValues: ForgotInitialValues = {
@@ -58,24 +57,24 @@ const ForgotPage = () => {
         try {
             throw new Error('error');
         } catch (error) {
-            setOpenSnackbar(!openSnackbar);
+            setOpenSnackbar((open) => !open);
         }
     };
 
-    // Define Handle Click Back
-    const handleClickBack = () => {
+    // Define Handle Click Login
+    const handleClickLogin = () => {
         router.push('/login');
     };
 
     // Define Handle Click Show Snackbar
     const handleClickCloseSnackbar = () => {
-        setOpenSnackbar(!openSnackbar);
+        setOpenSnackbar((close) => !close);
     };
 
     return (
         <>
             <Head>
-                <title>Lupa Password - Dashboard Accounting</title>
+                <title>Lupa Password - Dashboard Template</title>
             </Head>
             <Formik initialValues={initialValues} validationSchema={forgotSchema} onSubmit={handleSubmit}>
                 {({ isSubmitting, isValid, dirty }) => (
@@ -104,10 +103,10 @@ const ForgotPage = () => {
                                         }}
                                     />
                                 </ForgotFormControl>
-                                <ForgotFormButton variant="contained" type="submit" disabled={isSubmitting || !isValid || !dirty} fullWidth>
+                                <ButtonComponent variant="contained" type="submit" disabled={isSubmitting || !isValid || !dirty} fullWidth>
                                     Submit
-                                </ForgotFormButton>
-                                <ForgotFormBack onClick={handleClickBack}>
+                                </ButtonComponent>
+                                <ForgotFormBack onClick={handleClickLogin}>
                                     <ChevronLeft />
                                     Kembali ke halaman login
                                 </ForgotFormBack>
@@ -120,7 +119,7 @@ const ForgotPage = () => {
                 message="Verifikasi gagal, silahkan coba kembali"
                 position={{ vertical: 'top', horizontal: 'center' }}
                 type="error"
-                openSnackbar={openSnackbar}
+                open={openSnackbar}
                 handleClose={handleClickCloseSnackbar}
             />
         </>

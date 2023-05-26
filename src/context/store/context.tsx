@@ -10,8 +10,8 @@ import { reducer } from './reducer';
 
 // Define Initial State
 export const INITIAL_STATE: InitialState = {
-    modal: {
-        open: false,
+    menu: {
+        name: '',
     },
     pagination: {
         currentPage: 0,

@@ -1,6 +1,6 @@
-// Define Modal Interface
-export interface Modal {
-    open: boolean;
+// Define Menu Interface
+export interface Menu {
+    name: string;
 }
 
 // Define Pagination Interface
@@ -21,7 +21,7 @@ export interface Filter {
 
 // Define Initial State Interface
 export interface InitialState {
-    modal: Modal;
+    menu: Menu;
     pagination: Pagination;
     filter: Filter;
 }

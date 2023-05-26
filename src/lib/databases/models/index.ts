@@ -1,11 +1,15 @@
 // Import All Models
-import { default as auth } from './auth.model';
+import { default as masterAccount } from './master-account.model';
 import { default as menu } from './menu.model';
+import { default as trxJurnalHead } from './trx-jurnal-header';
+import { default as user } from './user.model';
 
 // Assign All Models
 const models = {
-    auth,
+    masterAccount,
     menu,
+    trxJurnalHead,
+    user,
 };
 
 // Export Models
