@@ -1,63 +1,60 @@
 // Import Modules
 import { NextApiRequest, NextApiResponse } from 'next';
 
-// Import Interfaces
-import { MenuList } from '@interfaces/pages/api';
-
 // Import Libs
 import { getLoginSession } from '@lib/auth/auth';
-import { API_NOT_FOUND, API_OK, API_UNAUTHORIZED } from '@lib/constants';
+import { API_OK, API_UNAUTHORIZED } from '@lib/constants';
 import { models } from '@lib/databases/models';
 import { handlerProtectApi } from '@lib/protect';
 
 // Import Entities
 import { Menu } from '@lib/databases/entities';
 
-// Define Mapping Menu
-const getMappingMenu = async (menu: Menu[]): Promise<MenuList[]> => {
-    const menuList: MenuList[] = [];
+// Define List menu
+interface ListMenu {
+    menu: Menu;
+    subMenu: Menu[];
+}
 
-    for (let index = 0; index < menu.length; index++) {
-        menuList.push({
-            menu: menu[index],
-            subMenu: [],
-        });
-    }
+// Define find All Menu
+const findAllMenu = async () => {
+    const listMenu: ListMenu[] = [];
+    const findMenu = await models.menu.findAllMenu();
 
-    for (let idx = 0; idx < menuList.length; idx++) {
-        const menu = menuList[idx].menu;
-        const menuLevel = menu.level;
-        const menuHeader = menu.header;
+    for (let i = 0; i < findMenu.length; i++) {
+        const getMenu = findMenu[i];
+        const getMenuHeader = findMenu[i].header;
 
-        if (menuLevel && menuHeader) {
-            for (let ids = 0; ids < menuList.length; ids++) {
-                const menuId = menuList[ids].menu.id;
-                if (menuId === menuHeader) {
-                    menuList[ids].subMenu.push(menu);
+        if (getMenuHeader === 0) {
+            listMenu.push({
+                menu: getMenu,
+                subMenu: [],
+            });
+        }
+        if (getMenuHeader > 0) {
+            for (let j = 0; j < listMenu.length; j++) {
+                const getMenuId = listMenu[j].menu.id;
+                if (getMenuId === getMenuHeader) {
+                    listMenu[j].subMenu.push(getMenu);
                 }
             }
         }
     }
 
-    return menuList.filter((v) => v.menu.header === 0);
+    return listMenu;
 };
 
 // Define Handler Api List Menu
-const handler = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const getSession = await getLoginSession(req);
 
     if (!getSession) {
         return API_UNAUTHORIZED(res);
     }
 
-    const getMenu = await models.menu.findAllMenu();
+    const getMenu = await findAllMenu();
 
-    if (getMenu.length === 0) {
-        return API_NOT_FOUND(res);
-    }
-
-    const getListMenu = await getMappingMenu(getMenu);
-    return API_OK(res, getListMenu);
+    return API_OK(res, getMenu);
 };
 
 // Export Handler Api List Menu

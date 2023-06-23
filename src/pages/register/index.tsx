@@ -1,57 +1,33 @@
 // Import Modules
-import { useCallback, useState } from 'react';
-import { Field, Formik, FormikHelpers, FormikValues } from 'formik';
+import { useCallback, useContext, useState } from 'react';
+import { Formik, FormikHelpers } from 'formik';
 import { GetServerSideProps, NextApiRequest } from 'next';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import Image from 'next/image';
 import dynamic from 'next/dynamic';
 
-// Import Material Modules
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-
-// Import Material Icons
-import PersonOutlined from '@mui/icons-material/PersonOutlined';
-import PeopleAltOutlined from '@mui/icons-material/PeopleAltOutlined';
-import EmailOutlined from '@mui/icons-material/EmailOutlined';
-import LockOutlined from '@mui/icons-material/LockOutlined';
-import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined';
-import VisibilityOffOutlined from '@mui/icons-material/VisibilityOffOutlined';
-
-// Import Interfaces
-import { RegisterInitialValues } from '@interfaces/pages';
-import { SnackbarState } from '@interfaces/components';
+// Import Context
+import { StoreContext } from '@context/store/context';
 
 // Import Libs
 import { getLoginSession } from '@lib/auth/auth';
 import { registerSchema } from '@lib/validation';
 
-// Import Assets
-import Preview from '../../../public/illustration_preview.png';
-
 // Import Components
-const InputComponent = dynamic(() => import('@components/Form/Input'), { ssr: false });
 const SnackbarComponent = dynamic(() => import('@components/Snackbar/Snackbar'), { ssr: false });
+import RegisterLeftComponent from '@pagesComponents/Register/RegisterLeft';
+import RegisterRightComponent from '@pagesComponents/Register/RegisterRight';
 
 // Import Styles
-import {
-    RegisterBoxWrapper,
-    RegisterFormBoxHeader,
-    RegisterFormBox,
-    RegisterFormBoxWrapper,
-    RegisterFormContainer,
-    RegisterFormControl,
-    RegisterFormRegister,
-    RegisterFormRegisterText,
-    RegisterFormSubText,
-    RegisterFormText,
-    RegisterImageContainer,
-    RegisterImageText,
-    RegisterImageTitle,
-    RegisterSection,
-} from '@styles/pages/register';
-import { ButtonComponent } from '@styles/components';
+import { RegisterBoxContainer, RegisterSection } from '@styles/pages/register';
+
+// Define Register Initial Values
+interface RegisterInitialValues {
+    name: string;
+    username: string;
+    email: string;
+    password: string;
+}
 
 // Define Initial Form Values
 const initialValues: RegisterInitialValues = {
@@ -66,19 +42,15 @@ const RegisterPage = () => {
     // Define Open Password State
     const [openPassword, setOpenPassword] = useState<boolean>(false);
 
-    // Define Open Snackbar State
-    const [openSnackbar, setOpenSnackbar] = useState<SnackbarState>({
-        open: false,
-        type: 'error',
-        message: '',
-    });
+    // Define Context
+    const { states, actions } = useContext(StoreContext);
 
     // Define Router
     const router = useRouter();
 
     // Define Handle Submit
     const handleSubmit = useCallback(
-        async (values: FormikValues, helpers: FormikHelpers<RegisterInitialValues>) => {
+        async (values: RegisterInitialValues, helpers: FormikHelpers<RegisterInitialValues>) => {
             const response = await fetch('/api/auth/register', {
                 method: 'POST',
                 headers: { 'Content-type': 'application/json' },
@@ -89,11 +61,16 @@ const RegisterPage = () => {
 
             if (response.status === 201) {
                 helpers.resetForm();
-                setOpenSnackbar((prev) => ({
-                    open: !prev.open,
+                actions.UPDATE_NOTIFICATION({
+                    ...states.notification,
+                    show: true,
                     type: 'success',
+                    position: {
+                        horizontal: 'center',
+                        vertical: 'top',
+                    },
                     message: getMessage,
-                }));
+                });
             }
             if (response.status === 400) {
                 const getParams = getResponse.params[0];
@@ -101,154 +78,59 @@ const RegisterPage = () => {
                 helpers.setFieldValue(getParams, '', false);
             }
             if (response.status === 500) {
-                setOpenSnackbar((prev) => ({
-                    open: !prev.open,
+                actions.UPDATE_NOTIFICATION({
+                    ...states.notification,
+                    show: true,
                     type: 'error',
+                    position: {
+                        horizontal: 'center',
+                        vertical: 'top',
+                    },
                     message: getMessage,
-                }));
+                });
             }
         },
         [router],
     );
 
-    // Define Handle Click Show Password
-    const handleClickShowPassword = () => {
+    // Define Handle Show Password
+    const handleShowPass = () => {
         setOpenPassword((open) => !open);
     };
 
-    // Define Handle Click Close Snackbar
-    const handleClickCloseSnackbar = () => {
-        setOpenSnackbar((prev) => ({ ...prev, open: !prev.open }));
-    };
-
-    // Define Handle Click Login
-    const handleClickLogin = () => {
+    // Define Handle Login
+    const handleLogin = () => {
         router.push('/login');
     };
 
     return (
         <>
             <Head>
-                <title>Daftar - Dashboard Template</title>
+                <title>Create Account - Harmoni Web Accounting</title>
             </Head>
             <Formik initialValues={initialValues} validationSchema={registerSchema} onSubmit={handleSubmit}>
                 {({ isSubmitting, isValid, dirty }) => (
                     <RegisterSection>
-                        <RegisterBoxWrapper>
-                            <RegisterFormBoxWrapper>
-                                <RegisterFormContainer autoComplete="off">
-                                    <RegisterFormBoxHeader>
-                                        <RegisterFormText>Daftar Sekarang</RegisterFormText>
-                                        <RegisterFormSubText>
-                                            Selamat Datang di Dashboard Template. Silahkan mendaftarkan data diri untuk masuk.
-                                        </RegisterFormSubText>
-                                    </RegisterFormBoxHeader>
-                                    <RegisterFormControl fullWidth variant="standard">
-                                        <Field
-                                            component={InputComponent}
-                                            type="text"
-                                            name="name"
-                                            placeholder="Name"
-                                            InputProps={{
-                                                startAdornment: (
-                                                    <InputAdornment position="start">
-                                                        <PersonOutlined />
-                                                    </InputAdornment>
-                                                ),
-                                            }}
-                                        />
-                                    </RegisterFormControl>
-                                    <RegisterFormControl fullWidth variant="standard">
-                                        <Field
-                                            component={InputComponent}
-                                            type="text"
-                                            name="username"
-                                            placeholder="Username"
-                                            InputProps={{
-                                                startAdornment: (
-                                                    <InputAdornment position="start">
-                                                        <PeopleAltOutlined />
-                                                    </InputAdornment>
-                                                ),
-                                            }}
-                                        />
-                                    </RegisterFormControl>
-                                    <RegisterFormControl fullWidth variant="standard">
-                                        <Field
-                                            component={InputComponent}
-                                            type="text"
-                                            name="email"
-                                            placeholder="Email"
-                                            InputProps={{
-                                                startAdornment: (
-                                                    <InputAdornment position="start">
-                                                        <EmailOutlined />
-                                                    </InputAdornment>
-                                                ),
-                                            }}
-                                        />
-                                    </RegisterFormControl>
-                                    <RegisterFormControl fullWidth variant="standard">
-                                        <Field
-                                            component={InputComponent}
-                                            type={openPassword ? 'text' : 'password'}
-                                            name="password"
-                                            placeholder="Password"
-                                            InputProps={{
-                                                startAdornment: (
-                                                    <InputAdornment position="start">
-                                                        <LockOutlined />
-                                                    </InputAdornment>
-                                                ),
-                                                endAdornment: (
-                                                    <InputAdornment position="end">
-                                                        <IconButton onClick={handleClickShowPassword}>
-                                                            {openPassword ? <VisibilityOffOutlined /> : <VisibilityOutlined />}
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                ),
-                                            }}
-                                        />
-                                    </RegisterFormControl>
-                                    <ButtonComponent
-                                        variant="contained"
-                                        type="submit"
-                                        disabled={isSubmitting || !isValid || !dirty}
-                                        fullWidth
-                                    >
-                                        Daftar
-                                    </ButtonComponent>
-                                    <RegisterFormBox>
-                                        <RegisterFormRegisterText>
-                                            Sudah punya akun? <RegisterFormRegister onClick={handleClickLogin}>Masuk</RegisterFormRegister>
-                                        </RegisterFormRegisterText>
-                                    </RegisterFormBox>
-                                </RegisterFormContainer>
-                            </RegisterFormBoxWrapper>
-                            <RegisterImageContainer>
-                                <Image alt="Image" src={Preview} width={600} height={400} />
-                                <RegisterImageTitle>Lorem Ipsum</RegisterImageTitle>
-                                <RegisterImageText>
-                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores dolor officia laudantium sunt sit,
-                                    modi labore? Labore, iusto nesciunt.
-                                </RegisterImageText>
-                            </RegisterImageContainer>
-                        </RegisterBoxWrapper>
+                        <RegisterBoxContainer>
+                            <RegisterLeftComponent
+                                openPassword={openPassword}
+                                handleShowPass={handleShowPass}
+                                handleLogin={handleLogin}
+                                isSubmitting={isSubmitting}
+                                isValid={isValid}
+                                dirty={dirty}
+                            />
+                            <RegisterRightComponent />
+                        </RegisterBoxContainer>
                     </RegisterSection>
                 )}
             </Formik>
-            <SnackbarComponent
-                message={openSnackbar.message}
-                position={{ vertical: 'top', horizontal: 'center' }}
-                type={openSnackbar.type}
-                open={openSnackbar.open}
-                handleClose={handleClickCloseSnackbar}
-            />
+            <SnackbarComponent />
         </>
     );
 };
 
-// Define Register Server Side
+// Define SSR Register Page
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const getRequest = context.req as NextApiRequest;
     const getSession = await getLoginSession(getRequest);

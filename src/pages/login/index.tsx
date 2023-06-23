@@ -1,60 +1,31 @@
 // Import Modules
-import { useCallback, useState } from 'react';
-import { Field, Formik, FormikHelpers, FormikValues } from 'formik';
+import { useCallback, useContext, useState } from 'react';
+import { Formik, FormikHelpers } from 'formik';
 import { GetServerSideProps, NextApiRequest } from 'next';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import Image from 'next/image';
 import dynamic from 'next/dynamic';
 
-// Import Material Modules
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-
-// Import Material Icons
-import PersonOutlined from '@mui/icons-material/PersonOutlined';
-import LockOutlined from '@mui/icons-material/LockOutlined';
-import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined';
-import VisibilityOffOutlined from '@mui/icons-material/VisibilityOffOutlined';
-
-// Import Interfaces
-import { LoginInitialValues } from '@interfaces/pages';
-import { SnackbarState } from '@interfaces/components';
+// Import Context
+import { StoreContext } from '@context/store/context';
 
 // Import Libs
 import { getLoginSession } from '@lib/auth/auth';
 import { loginSchema } from '@lib/validation';
 
-// Import Assets
-import Logo from '../../../public/example-logo.png';
-import Illustratrion from '../../../public/illustration.png';
-
 // Import Components
-const InputComponent = dynamic(() => import('@components/Form/Input'), { ssr: false });
 const SnackbarComponent = dynamic(() => import('@components/Snackbar/Snackbar'), { ssr: false });
+import LoginLeftComponent from '@pagesComponents/Login/LoginLeft';
+import LoginRightComponent from '@pagesComponents/Login/LoginRight';
 
 // Import Styles
-import {
-    LoginBoxLogo,
-    LoginBoxWrapper,
-    LoginFormBoxForgot,
-    LoginFormBoxHeader,
-    LoginFormBoxRegister,
-    LoginFormBoxWrapper,
-    LoginFormContainer,
-    LoginFormControl,
-    LoginFormForgot,
-    LoginFormRegister,
-    LoginFormRegisterText,
-    LoginFormSubText,
-    LoginFormText,
-    LoginImageContainer,
-    LoginImageText,
-    LoginImageTitle,
-    LoginLogoText,
-    LoginSection,
-} from '@styles/pages/login';
-import { ButtonComponent } from '@styles/components';
+import { LoginBoxContainer, LoginSection } from '@styles/pages';
+
+// Define Login Initial Values
+export interface LoginInitialValues {
+    username: string;
+    password: string;
+}
 
 // Define Initial Form Values
 const initialValues: LoginInitialValues = {
@@ -67,19 +38,15 @@ const LoginPage = () => {
     // Define Open Password State
     const [openPassword, setOpenPassword] = useState<boolean>(false);
 
-    // Define Open Snackbar State
-    const [openSnackbar, setOpenSnackbar] = useState<SnackbarState>({
-        open: false,
-        type: 'error',
-        message: '',
-    });
+    // Define Context
+    const { states, actions } = useContext(StoreContext);
 
     // Define Router
     const router = useRouter();
 
     // Define Handle Submit
     const handleSubmit = useCallback(
-        async (values: FormikValues, helpers: FormikHelpers<LoginInitialValues>) => {
+        async (values: LoginInitialValues, helpers: FormikHelpers<LoginInitialValues>) => {
             const response = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-type': 'application/json' },
@@ -92,132 +59,65 @@ const LoginPage = () => {
                 router.push('/login/redirect');
             }
             if (response.status >= 400) {
-                setOpenSnackbar((prev) => ({ ...prev, open: !prev.open, message: getMessage }));
+                actions.UPDATE_NOTIFICATION({
+                    ...states.notification,
+                    show: true,
+                    type: 'error',
+                    position: {
+                        horizontal: 'center',
+                        vertical: 'top',
+                    },
+                    message: getMessage,
+                });
             }
         },
         [router],
     );
 
-    // Define Handle Click Show Password
-    const handleClickShowPassword = () => {
+    // Define Handle Show Password
+    const handleShowPass = () => {
         setOpenPassword((open) => !open);
     };
 
-    // Define Handle Click Close Snackbar
-    const handleClickCloseSnackbar = () => {
-        setOpenSnackbar((prev) => ({ ...prev, open: !prev.open }));
-    };
-
-    // Define Handle Click Forgot
-    const handleClickForgot = () => {
+    // Define Handle Forgot
+    const handleForgot = () => {
         router.push('/forgot');
     };
 
-    // Define Handle Click Register
-    const handleClickRegister = () => {
+    // Define Handle Register
+    const handleRegister = () => {
         router.push('/register');
     };
 
     return (
         <>
             <Head>
-                <title>Masuk - Dashboard Template</title>
+                <title>Login - Harmoni Web Accounting</title>
             </Head>
             <Formik initialValues={initialValues} validationSchema={loginSchema} onSubmit={handleSubmit}>
                 {({ isSubmitting, isValid, dirty }) => (
                     <LoginSection>
-                        <LoginBoxWrapper>
-                            <LoginFormBoxWrapper>
-                                <LoginFormContainer autoComplete="off">
-                                    <LoginBoxLogo>
-                                        <Image alt="Logo Image" src={Logo} width={60} height={60} />
-                                        <LoginLogoText>Dashboard Admin Template</LoginLogoText>
-                                    </LoginBoxLogo>
-                                    <LoginFormBoxHeader>
-                                        <LoginFormText>Masuk</LoginFormText>
-                                        <LoginFormSubText>
-                                            Selamat Datang di Dashboard Template. Silahkan masuk menggunakan akun anda.
-                                        </LoginFormSubText>
-                                    </LoginFormBoxHeader>
-                                    <LoginFormControl fullWidth variant="standard">
-                                        <Field
-                                            component={InputComponent}
-                                            type="text"
-                                            name="username"
-                                            placeholder="Username"
-                                            InputProps={{
-                                                startAdornment: (
-                                                    <InputAdornment position="start">
-                                                        <PersonOutlined />
-                                                    </InputAdornment>
-                                                ),
-                                            }}
-                                        />
-                                    </LoginFormControl>
-                                    <LoginFormControl fullWidth variant="standard">
-                                        <Field
-                                            component={InputComponent}
-                                            type={openPassword ? 'text' : 'password'}
-                                            name="password"
-                                            placeholder="Password"
-                                            InputProps={{
-                                                startAdornment: (
-                                                    <InputAdornment position="start">
-                                                        <LockOutlined />
-                                                    </InputAdornment>
-                                                ),
-                                                endAdornment: (
-                                                    <InputAdornment position="end">
-                                                        <IconButton onClick={handleClickShowPassword}>
-                                                            {openPassword ? <VisibilityOffOutlined /> : <VisibilityOutlined />}
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                ),
-                                            }}
-                                        />
-                                    </LoginFormControl>
-                                    <LoginFormBoxForgot>
-                                        <LoginFormForgot onClick={handleClickForgot}>Lupa Password?</LoginFormForgot>
-                                    </LoginFormBoxForgot>
-                                    <ButtonComponent
-                                        variant="contained"
-                                        type="submit"
-                                        disabled={isSubmitting || !isValid || !dirty}
-                                        fullWidth
-                                    >
-                                        Masuk
-                                    </ButtonComponent>
-                                    <LoginFormBoxRegister>
-                                        <LoginFormRegisterText>
-                                            Belum punya akun? <LoginFormRegister onClick={handleClickRegister}>Daftar</LoginFormRegister>
-                                        </LoginFormRegisterText>
-                                    </LoginFormBoxRegister>
-                                </LoginFormContainer>
-                            </LoginFormBoxWrapper>
-                            <LoginImageContainer>
-                                <Image alt="Image" src={Illustratrion} width={400} height={400} />
-                                <LoginImageTitle>Lorem Ipsum</LoginImageTitle>
-                                <LoginImageText>
-                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores dolor officia laudantium sunt sit,
-                                    modi labore? Labore, iusto nesciunt.
-                                </LoginImageText>
-                            </LoginImageContainer>
-                        </LoginBoxWrapper>
+                        <LoginBoxContainer>
+                            <LoginLeftComponent
+                                openPassword={openPassword}
+                                handleShowPass={handleShowPass}
+                                handleForgot={handleForgot}
+                                handleRegister={handleRegister}
+                                isSubmitting={isSubmitting}
+                                isValid={isValid}
+                                dirty={dirty}
+                            />
+                            <LoginRightComponent />
+                        </LoginBoxContainer>
                     </LoginSection>
                 )}
             </Formik>
-            <SnackbarComponent
-                message={openSnackbar.message}
-                position={{ vertical: 'top', horizontal: 'center' }}
-                type={openSnackbar.type}
-                open={openSnackbar.open}
-                handleClose={handleClickCloseSnackbar}
-            />
+            <SnackbarComponent />
         </>
     );
 };
 
-// Define Login Server Side
+// Define SSR Login Page
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const getRequest = context.req as NextApiRequest;
     const getSession = await getLoginSession(getRequest);

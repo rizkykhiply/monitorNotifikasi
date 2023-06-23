@@ -6,10 +6,10 @@ import { getLoginSession } from '@lib/auth/auth';
 
 // Define Redirect Page
 const RedirectPage = () => {
-    return <></>;
+    return null;
 };
 
-// Define Redirect Server Side
+// Define SSR Redirect Page
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const getRequest = context.req as NextApiRequest;
     const getSession = await getLoginSession(getRequest);

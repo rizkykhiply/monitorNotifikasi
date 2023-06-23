@@ -9,12 +9,13 @@ import Box from '@mui/material/Box';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
+import Toolbar from '@mui/material/Toolbar';
 
 interface PropsNavbarContainer {
     width: number;
 }
 
-interface PropsNavbarContent {
+interface PropsNavbarContentContainer {
     trigger: boolean;
 }
 
@@ -34,7 +35,11 @@ export const NavbarContainer = styled(AppBar, {
     boxShadow: 'none',
 }));
 
-export const NavbarIconButton = styled(IconButton)(({ theme }) => ({
+export const NavbarToolbar = styled(Toolbar)(({ theme }) => ({
+    margin: '0 30px',
+}));
+
+export const NavbarIconContainer = styled(IconButton)(({ theme }) => ({
     [theme.breakpoints.up('sm')]: {
         display: 'none',
         marginRight: '20px',
@@ -42,42 +47,44 @@ export const NavbarIconButton = styled(IconButton)(({ theme }) => ({
     color: 'inherit',
 }));
 
-export const NavbarContent = styled(Box, { shouldForwardProp: (props) => shouldForwardProp(['trigger'], props) })<PropsNavbarContent>(
-    ({ theme, trigger }) => ({
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+export const NavbarContentContainer = styled(Box, {
+    shouldForwardProp: (props) => shouldForwardProp(['trigger'], props),
+})<PropsNavbarContentContainer>(({ theme, trigger }) => ({
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
 
-        position: 'relative',
-        width: '100%',
-        background: trigger ? '#FFF' : 'none',
-        borderRadius: trigger ? '10px' : 'none',
-        boxShadow: trigger ? '0 5px 15px rgba(0, 0, 0, 0.15)' : 'none',
-        marginTop: trigger ? '20px' : 'none',
-        padding: '10px 15px',
-        transition: 'all 0.5s ease',
-    }),
-);
+    position: 'relative',
+    width: '100%',
+    background: trigger ? '#FFF' : 'none',
+    borderRadius: '10px',
+    boxShadow: trigger ? 'rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px' : 'none',
+    top: trigger ? '20px' : 'none',
+    padding: trigger ? '10px' : '20px 10px',
+    transition: 'background 0.2s ease',
+}));
 
-export const NavbarContentBreadcumbs = styled(Breadcrumbs)(({ theme }) => ({
+export const NavbarContentBreadcumbsContainer = styled(Breadcrumbs)(({ theme }) => ({
     fontSize: '12px',
 }));
 
-export const NavbarContentLink = styled(Link)(({ theme }) => ({
+export const NavbarContentBreadcumbsLink = styled(Link)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
+
+    fontSize: theme.typography.subtitle2.fontSize,
 }));
 
-export const NavbarContentText = styled(Typography)(({ theme }) => ({
+export const NavbarContentBreadcumbsText = styled(Typography)(({ theme }) => ({
     fontSize: theme.typography.subtitle2.fontSize,
     color: theme.palette.text.primary,
 }));
 
-export const NavbarContentProfile = styled(Box)(({ theme }) => ({
+export const NavbarContentProfileContainer = styled(Box)(({ theme }) => ({
     width: 'auto',
 }));
 
-export const NavbarContentButton = styled(IconButton)(({ theme }) => ({
+export const NavbarContentProfileButton = styled(IconButton)(({ theme }) => ({
     color: 'inherit',
     borderRadius: '10px',
     '&:hover': {
@@ -85,12 +92,7 @@ export const NavbarContentButton = styled(IconButton)(({ theme }) => ({
     },
 }));
 
-export const NavbarContentButtonText = styled(Typography)(({ theme }) => ({
-    fontSize: theme.typography.subtitle2.fontSize,
-    marginLeft: '10px',
-}));
-
-export const NavbarMenuHeaderWrapper = styled(Box)(({ theme }) => ({
+export const NavbarMenuContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -99,32 +101,30 @@ export const NavbarMenuHeaderWrapper = styled(Box)(({ theme }) => ({
     padding: '15px',
 }));
 
-export const NavbarMenuTextWrapper = styled(Box)(({ theme }) => ({
+export const NavbarMenuContentContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
 }));
 
-export const NavbarMenuTextBox = styled(Box)(({ theme }) => ({
+export const NavbarMenuTextContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
 }));
 
-export const NavbarMenuTextName = styled(Typography)(({ theme }) => ({
+export const NavbarMenuText = styled(Typography)(({ theme }) => ({
     fontSize: theme.typography.subtitle2.fontSize,
 }));
 
-export const NavbarMenuTextRole = styled(Typography)(({ theme }) => ({
+export const NavbarMenuSubText = styled(Typography)(({ theme }) => ({
     fontSize: '12px',
     color: theme.palette.text.secondary,
 }));
 
-export const NavbarMenuIconWrapper = styled(Tooltip)(({ theme }) => ({}));
+export const NavbarMenuTooltipContainer = styled(Tooltip)(({ theme }) => ({}));
 
 export const NavbarMenuIconButton = styled(IconButton)(({ theme }) => ({
     color: theme.palette.text.primary,
-    transition: 'all 0.25s',
     '&:hover': {
-        color: '#FFF',
-        background: theme.palette.primary.main,
+        background: '#00000014',
     },
 }));

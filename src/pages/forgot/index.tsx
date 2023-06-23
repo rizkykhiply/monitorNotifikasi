@@ -1,6 +1,7 @@
 // Import Modules
-import { useState } from 'react';
-import { Field, Formik, FormikValues } from 'formik';
+import { useContext } from 'react';
+import { Field, Formik } from 'formik';
+import { GetServerSideProps, NextApiRequest } from 'next';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
@@ -13,31 +14,35 @@ import InputAdornment from '@mui/material/InputAdornment';
 import MailOutline from '@mui/icons-material/MailOutline';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 
-// Import Interfaces
-import { ForgotInitialValues } from '@interfaces/pages';
+// Import Context
+import { StoreContext } from '@context/store/context';
 
 // Import Libs
+import { getLoginSession } from '@lib/auth/auth';
 import { forgotSchema } from '@lib/validation';
 
 // Import Assets
-import Logo from '../../../public/example-logo.png';
+import Logo from '../../../public/logo.png';
 
 // Import Components
-const InputComponent = dynamic(() => import('@components/Form/Input'), { ssr: false });
+const InputComponent = dynamic(() => import('@components/Form/Formik/Input'), { ssr: false });
 const SnackbarComponent = dynamic(() => import('@components/Snackbar/Snackbar'), { ssr: false });
 
 // Import Styles
+import { ButtonPrimary, CustomFormBox, CustomFormControl, CustomFormInput, FormikFormContainer } from '@styles/components';
 import {
-    ForgotBoxWrapper,
-    ForgotFormBack,
-    ForgotFormBoxHeader,
-    ForgotFormContainer,
-    ForgotFormControl,
-    ForgotFormText,
-    ForgotFormTitle,
+    ForgotBoxContainer,
+    ForgotHeaderContainer,
+    ForgotHeaderText,
+    ForgotLoginContainer,
+    ForgotLoginRedirect,
     ForgotSection,
 } from '@styles/pages/forgot';
-import { ButtonComponent } from '@styles/components';
+
+// Define Forgot Initial Values
+interface ForgotInitialValues {
+    email: string;
+}
 
 // Define Initial Form Values
 const initialValues: ForgotInitialValues = {
@@ -46,84 +51,93 @@ const initialValues: ForgotInitialValues = {
 
 // Define Forgot Page
 const ForgotPage = () => {
-    // Define Open Snackbar State
-    const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
+    // Define Context
+    const { states, actions } = useContext(StoreContext);
 
     // Define Router
     const router = useRouter();
 
     // Define Handle Submit
-    const handleSubmit = async (values: FormikValues) => {
-        try {
-            throw new Error('error');
-        } catch (error) {
-            setOpenSnackbar((open) => !open);
-        }
+    const handleSubmit = async (values: ForgotInitialValues) => {
+        return;
     };
 
-    // Define Handle Click Login
-    const handleClickLogin = () => {
+    // Define Handle Login
+    const handleLogin = () => {
         router.push('/login');
-    };
-
-    // Define Handle Click Show Snackbar
-    const handleClickCloseSnackbar = () => {
-        setOpenSnackbar((close) => !close);
     };
 
     return (
         <>
             <Head>
-                <title>Lupa Password - Dashboard Template</title>
+                <title>Forgot Password - Harmoni Web Accounting</title>
             </Head>
             <Formik initialValues={initialValues} validationSchema={forgotSchema} onSubmit={handleSubmit}>
                 {({ isSubmitting, isValid, dirty }) => (
                     <ForgotSection>
-                        <ForgotBoxWrapper>
-                            <ForgotFormContainer autoComplete="off">
-                                <ForgotFormBoxHeader>
-                                    <Image alt="Logo Image" src={Logo} width={160} height={150} />
-                                    <ForgotFormTitle>Atur Ulang Kata Sandi</ForgotFormTitle>
-                                    <ForgotFormText>
-                                        Masukkan email yang terdaftar. Kami akan mengirimkan kode verifikasi untuk atur ulang kata sandi.
-                                    </ForgotFormText>
-                                </ForgotFormBoxHeader>
-                                <ForgotFormControl fullWidth variant="standard">
-                                    <Field
-                                        component={InputComponent}
-                                        type="text"
-                                        name="email"
-                                        placeholder="Email"
-                                        InputProps={{
-                                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <MailOutline />
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                    />
-                                </ForgotFormControl>
-                                <ButtonComponent variant="contained" type="submit" disabled={isSubmitting || !isValid || !dirty} fullWidth>
+                        <ForgotBoxContainer>
+                            <FormikFormContainer autoComplete="off" width="100%">
+                                <ForgotHeaderContainer>
+                                    <Image alt="Logo Image" src={Logo} width={160} height={125} />
+                                    <ForgotHeaderText mt={4}>
+                                        Please enter the registered email. We will send you a verification code to reset your password.
+                                    </ForgotHeaderText>
+                                </ForgotHeaderContainer>
+                                <CustomFormBox display="block">
+                                    <CustomFormInput mb={4}>
+                                        <CustomFormControl fullWidth variant="standard">
+                                            <Field
+                                                component={InputComponent}
+                                                type="text"
+                                                name="email"
+                                                placeholder="Email"
+                                                InputProps={{
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            <MailOutline />
+                                                        </InputAdornment>
+                                                    ),
+                                                }}
+                                            />
+                                        </CustomFormControl>
+                                    </CustomFormInput>
+                                </CustomFormBox>
+                                <ButtonPrimary fullWidth variant="contained" type="submit" disabled={isSubmitting || !isValid || !dirty}>
                                     Submit
-                                </ButtonComponent>
-                                <ForgotFormBack onClick={handleClickLogin}>
-                                    <ChevronLeft />
-                                    Kembali ke halaman login
-                                </ForgotFormBack>
-                            </ForgotFormContainer>
-                        </ForgotBoxWrapper>
+                                </ButtonPrimary>
+                                <ForgotLoginContainer>
+                                    <ForgotLoginRedirect onClick={handleLogin}>
+                                        <ChevronLeft />
+                                        Back to login
+                                    </ForgotLoginRedirect>
+                                </ForgotLoginContainer>
+                            </FormikFormContainer>
+                        </ForgotBoxContainer>
                     </ForgotSection>
                 )}
             </Formik>
-            <SnackbarComponent
-                message="Verifikasi gagal, silahkan coba kembali"
-                position={{ vertical: 'top', horizontal: 'center' }}
-                type="error"
-                open={openSnackbar}
-                handleClose={handleClickCloseSnackbar}
-            />
+            <SnackbarComponent />
         </>
     );
+};
+
+// Define SSR Forgot Page
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const getRequest = context.req as NextApiRequest;
+    const getSession = await getLoginSession(getRequest);
+
+    if (!getSession) {
+        return {
+            props: {},
+        };
+    }
+
+    return {
+        redirect: {
+            destination: '/dashboard',
+            permanent: false,
+        },
+    };
 };
 
 // Export Forgot Page

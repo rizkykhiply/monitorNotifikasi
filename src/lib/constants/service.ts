@@ -14,7 +14,7 @@ const SERVICE_DATABASE_NAME = process.env.SERVICE_DATABASE_NAME;
 // Define Constants Service Auth Variables
 const SERVICE_TOKEN_SECRET = process.env.SERVICE_TOKEN_SECRET || '';
 const SERVICE_TOKEN_NAME = process.env.SERVICE_TOKEN_NAME || '';
-const SERVICE_TOKEN_MAX_AGE = 60 * 60 * 8; // 8 hours;
+const SERVICE_TOKEN_MAX_AGE = 60 * 15; // 8 hours;
 
 // Define Constants Service Crypto Variables
 const SERVICE_CRYPTO_ALGORITHM = process.env.SERVICE_CRYPTO_ALGORITHM || '';

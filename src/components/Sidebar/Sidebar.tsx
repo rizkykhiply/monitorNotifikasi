@@ -6,17 +6,17 @@ import Image from 'next/image';
 // Import Material Icons
 import * as Icon from '@mui/icons-material';
 
-// Import Hooks
-import { useHooksMenu } from '@hooks/index';
-
 // Import Assets
-import Logo from '../../../public/example-logo.png';
+import Logo from '../../../public/logo.png';
+
+// Import Hooks
+import { useHooksMenu } from '@hooks/master';
 
 // Import Components
 import { NestedList, SingleList } from './Menu';
 
 // Import Styles
-import { SidebarHeader, SidebarHeaderText, SidebarListBox } from '@styles/components';
+import { SidebarHeader, SidebarListContainer } from '@styles/components';
 
 // Define Sidebar Component
 const SidebarComponent = () => {
@@ -25,10 +25,10 @@ const SidebarComponent = () => {
     const currentRoute = router.pathname;
 
     // Define Hooks Menu
-    const getMasterMenu = useHooksMenu();
+    const { data } = useHooksMenu();
 
     // Define Mapping List Menu
-    const listMenu = getMasterMenu?.map((value) => {
+    const listMenu = data?.map((value) => {
         const menu = value.menu;
         const subMenu = value.subMenu;
 
@@ -44,17 +44,16 @@ const SidebarComponent = () => {
     return (
         <>
             <SidebarHeader>
-                <Image src={Logo} alt="Logo Image" width={45} height={40} />
-                <SidebarHeaderText>Dashboard Admin Template</SidebarHeaderText>
+                <Image src={Logo} alt="Logo Image" width={100} height={65} />
             </SidebarHeader>
             {listMenu?.map((menu) => (
-                <SidebarListBox key={menu.id}>
+                <SidebarListContainer key={menu.id}>
                     {menu.subMenu.length === 0 ? (
                         <SingleList menu={{ ...menu, subMenu: menu.subMenu }} currRoute={currentRoute} />
                     ) : (
                         <NestedList menu={{ ...menu, subMenu: menu.subMenu }} currRoute={currentRoute} />
                     )}
-                </SidebarListBox>
+                </SidebarListContainer>
             ))}
         </>
     );

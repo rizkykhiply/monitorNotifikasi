@@ -1,5 +1,5 @@
 // Import Modules
-import { Pool, QueryResult } from 'pg';
+import { Pool } from 'pg';
 
 // Import Constants
 import {
@@ -25,6 +25,7 @@ const baseQuery = async <T>(query: string, params: (string | number)[]): Promise
         try {
             const connection = await database.connect();
             const result = await connection.query<T[] & T>(query, params);
+            connection.release();
             resolve(result.rows);
         } catch (error) {
             reject(error);

@@ -15,7 +15,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse): Promise<void>
     const getUsername: string = getBody.username.toLowerCase();
     const getEmail: string = getBody.email.toLowerCase();
 
-    const getUser = await models.user.fineOneUserLogin({ username: getUsername });
+    const getUser = await models.user.findOneUserLogin({ username: getUsername });
 
     if (getUser) {
         return API_BAD_REQUEST(res, ['username'], REGISTER_ERROR_MESSAGE);

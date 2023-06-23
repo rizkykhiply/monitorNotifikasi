@@ -9,16 +9,16 @@ const theme = createTheme({
             disabled: '#AAB4C8',
         },
         primary: {
-            main: '#FF9933',
-            dark: '#FFA244',
+            main: '#0081EA',
+            dark: '#0D92FF',
         },
         text: {
             primary: '#333',
             secondary: '#8C8C8C',
         },
         background: {
-            default: 'linear-gradient(316deg, #D14545 0%, #FF9933 74%)',
-            paper: '#F3F3F3',
+            default: 'linear-gradient(60deg, #039, #0CF)',
+            paper: '#F7F7F7',
         },
     },
     typography: {

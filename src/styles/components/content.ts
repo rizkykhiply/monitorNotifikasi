@@ -1,9 +1,9 @@
-// Modules
+// Import Modules
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 
-interface PropsContentContainerSidebar {
+interface PropsSidebar {
     width: number;
 }
 
@@ -15,9 +15,9 @@ export const ContentContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
 }));
 
-export const ContentContainerSidebar = styled(Box, {
+export const ContentSidebarContainer = styled(Box, {
     shouldForwardProp: (props) => shouldForwardProp(['width'], props),
-})<PropsContentContainerSidebar>(({ theme, width }) => ({
+})<PropsSidebar>(({ theme, width }) => ({
     [theme.breakpoints.up('sm')]: {
         width: width,
         flexShrink: 0,
@@ -26,7 +26,7 @@ export const ContentContainerSidebar = styled(Box, {
 
 export const ContentSidebarMobile = styled(Drawer, {
     shouldForwardProp: (props) => shouldForwardProp(['width'], props),
-})<PropsContentContainerSidebar>(({ theme, width }) => ({
+})<PropsSidebar>(({ theme, width }) => ({
     [theme.breakpoints.up('xs')]: {
         display: 'block',
     },
@@ -41,7 +41,7 @@ export const ContentSidebarMobile = styled(Drawer, {
 
 export const ContentSidebar = styled(Drawer, {
     shouldForwardProp: (props) => shouldForwardProp(['width'], props),
-})<PropsContentContainerSidebar>(({ theme, width }) => ({
+})<PropsSidebar>(({ theme, width }) => ({
     [theme.breakpoints.up('xs')]: {
         display: 'none',
     },
@@ -53,17 +53,16 @@ export const ContentSidebar = styled(Drawer, {
         width: width,
         background: '#FFF',
         border: 'none',
-        boxShadow: '5px 0 15px rgba(0, 0, 0, 0.05)',
+        boxShadow: 'rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px',
     },
 }));
 
-export const ContentMain = styled(Box, { shouldForwardProp: (props) => shouldForwardProp(['width'], props) })<PropsContentContainerSidebar>(
+export const ContentMain = styled(Box, { shouldForwardProp: (props) => shouldForwardProp(['width'], props) })<PropsSidebar>(
     ({ theme, width }) => ({
         [theme.breakpoints.up('sm')]: {
             width: `calc(100% - ${width}px)`,
         },
         flexGrow: 1,
-        padding: '0 30px',
-        minHeight: '100vh',
+        padding: '20px 55px 50px',
     }),
 );

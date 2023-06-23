@@ -1,10 +1,6 @@
-// Import Modules
-import { Form } from 'formik';
-
 // Import Material Modules
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 
@@ -14,10 +10,9 @@ export const LoginSection = styled(Box)(({ theme }) => ({
     alignItems: 'center',
 
     height: '100vh',
-    background: theme.palette.background.paper,
 }));
 
-export const LoginBoxWrapper = styled(Box)(({ theme }) => ({
+export const LoginBoxContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -28,26 +23,17 @@ export const LoginBoxWrapper = styled(Box)(({ theme }) => ({
     background: '#FFF',
     borderTopLeftRadius: '20px',
     borderBottomLeftRadius: '20px',
-    boxShadow: theme.shadows[6],
+    boxShadow: 'rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px',
     position: 'relative',
 }));
 
-export const LoginBoxLogo = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-
+export const LoginLogoContainer = styled(Box)(({ theme }) => ({
     position: 'absolute',
     top: 30,
     left: 30,
 }));
 
-export const LoginLogoText = styled(Typography)(({ theme }) => ({
-    width: '160px',
-    fontSize: '14px',
-    marginLeft: '10px',
-}));
-
-export const LoginFormBoxWrapper = styled(Box)(({ theme }) => ({
+export const LoginLeftContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -57,11 +43,7 @@ export const LoginFormBoxWrapper = styled(Box)(({ theme }) => ({
     height: '100%',
 }));
 
-export const LoginFormContainer = styled(Form)(({ theme }) => ({
-    maxWidth: '450px',
-}));
-
-export const LoginFormBoxHeader = styled(Box)(({ theme }) => ({
+export const LoginHeaderContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flext-start',
@@ -69,29 +51,23 @@ export const LoginFormBoxHeader = styled(Box)(({ theme }) => ({
     marginBottom: '40px',
 }));
 
-export const LoginFormText = styled(Typography)(({ theme }) => ({
+export const LoginHeaderTitle = styled(Typography)(({ theme }) => ({
     fontSize: theme.typography.h2.fontSize,
     fontWeight: theme.typography.h2.fontWeight,
     marginBottom: '5px',
 }));
 
-export const LoginFormSubText = styled(Typography)(({ theme }) => ({
+export const LoginHeaderText = styled(Typography)(({ theme }) => ({
     fontSize: '14px',
 }));
 
-export const LoginFormControl = styled(FormControl)(({ theme }) => ({
-    ':not(:nth-last-of-type(3))': {
-        marginBottom: '30px',
-    },
-}));
-
-export const LoginFormBoxForgot = styled(Box)(({ theme }) => ({
+export const LoginForgotContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     justifyContent: 'flex-end',
     margin: '20px 0',
 }));
 
-export const LoginFormForgot = styled(Link)(({ theme }) => ({
+export const LoginForgotRedirect = styled(Link)(({ theme }) => ({
     color: 'inherit',
     textDecoration: 'none',
     fontSize: '13px',
@@ -99,18 +75,18 @@ export const LoginFormForgot = styled(Link)(({ theme }) => ({
     cursor: 'pointer',
 }));
 
-export const LoginFormBoxRegister = styled(Box)(({ theme }) => ({
+export const LoginRegisContainer = styled(Box)(({ theme }) => ({
     textAlign: 'center',
     marginTop: '20px',
 }));
 
-export const LoginFormRegisterText = styled(Typography)(({ theme }) => ({
+export const LoginRegisText = styled(Typography)(({ theme }) => ({
     color: 'inherit',
     fontSize: '13px',
     fontWeight: theme.typography.fontWeightLight,
 }));
 
-export const LoginFormRegister = styled(Link)(({ theme }) => ({
+export const LoginRegisRedirect = styled(Link)(({ theme }) => ({
     color: theme.palette.primary.main,
     textDecoration: 'none',
     fontSize: '13px',
@@ -118,7 +94,7 @@ export const LoginFormRegister = styled(Link)(({ theme }) => ({
     cursor: 'pointer',
 }));
 
-export const LoginImageContainer = styled(Box)(({ theme }) => ({
+export const LoginRightContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -129,7 +105,7 @@ export const LoginImageContainer = styled(Box)(({ theme }) => ({
     background: theme.palette.background.default,
 }));
 
-export const LoginImageTitle = styled(Typography)(({ theme }) => ({
+export const LoginHighlightTitle = styled(Typography)(({ theme }) => ({
     color: '#FFF',
     fontSize: theme.typography.h4.fontSize,
     fontWeight: theme.typography.h4.fontWeight,
@@ -137,7 +113,7 @@ export const LoginImageTitle = styled(Typography)(({ theme }) => ({
     marginBottom: '10px',
 }));
 
-export const LoginImageText = styled(Typography)(({ theme }) => ({
+export const LoginHighlightText = styled(Typography)(({ theme }) => ({
     maxWidth: '500px',
     color: '#FFF',
     fontSize: theme.typography.subtitle1.fontSize,

@@ -1,5 +1,6 @@
 // Import Modules
 import { AppType } from 'next/app';
+import { DocumentProps } from 'next/document';
 import createEmotionServer from '@emotion/server/create-instance';
 import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
 
@@ -7,10 +8,15 @@ import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/do
 import { createEmotionCache } from '@lib/utils';
 
 // Import Interfaces
-import { MyAppProps, MyDocumentProps } from '@interfaces/pages';
+import { MyAppProps } from './_app';
 
 // Import Base Theme
 import theme from '@styles/theme';
+
+// Define Document Props
+export interface MyDocumentProps extends DocumentProps {
+    emotionStyleTags: JSX.Element[];
+}
 
 // Define My Document
 export default function MyDocument({ emotionStyleTags }: MyDocumentProps) {

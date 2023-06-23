@@ -6,7 +6,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Typography from '@mui/material/Typography';
 
 interface PropsActive {
     active: boolean;
@@ -26,12 +25,7 @@ export const SidebarHeader = styled(Toolbar)(({ theme }) => ({
     padding: '20px 0 ',
 }));
 
-export const SidebarHeaderText = styled(Typography)(({ theme }) => ({
-    fontSize: theme.typography.subtitle2.fontSize,
-    marginLeft: '10px',
-}));
-
-export const SidebarListBox = styled(Box)(({ theme }) => ({
+export const SidebarListContainer = styled(Box)(({ theme }) => ({
     marginTop: '5px',
 }));
 
@@ -40,7 +34,12 @@ export const SidebarList = styled(ListItem)(({ theme }) => ({
     padding: '0 20px',
 }));
 
-export const SidebarButton = styled(ListItemButton, {
+export const SidebarListText = styled(ListItemText)(({ theme }) => ({
+    display: 'block',
+    color: 'inherit',
+}));
+
+export const SidebarListButton = styled(ListItemButton, {
     shouldForwardProp: (props) => shouldForwardProp(['active', 'sub'], props),
 })<PropsActive>(({ theme, active, sub }) => ({
     color: theme.palette.text.primary,
@@ -57,14 +56,20 @@ export const SidebarButton = styled(ListItemButton, {
               height: active ? '9px' : '6px',
               width: active ? '9px' : '6px',
               borderRadius: '50%',
-              background: active ? theme.palette.primary.main : theme.palette.text.secondary,
+              background: active ? theme.palette.background.default : theme.palette.text.secondary,
               marginRight: active ? '34px' : '37px',
               marginLeft: '12px',
           }
         : 'none',
 }));
 
-export const SidebarIconBox = styled(Box, { shouldForwardProp: (props) => shouldForwardProp(['active'], props) })<PropsActive>(
+export const SidebarIconContainer = styled(ListItemIcon, {
+    shouldForwardProp: (props) => shouldForwardProp(['active'], props),
+})<PropsActive>(({ theme, active }) => ({
+    color: active ? '#FFF' : 'inherit',
+}));
+
+export const SidebarIcon = styled(Box, { shouldForwardProp: (props) => shouldForwardProp(['active'], props) })<PropsActive>(
     ({ theme, active }) => ({
         background: active ? theme.palette.background.default : theme.palette.background.paper,
         borderRadius: '10px',
@@ -72,14 +77,3 @@ export const SidebarIconBox = styled(Box, { shouldForwardProp: (props) => should
         padding: '6px 6px 0 6px',
     }),
 );
-
-export const SidebarIconItem = styled(ListItemIcon, {
-    shouldForwardProp: (props) => shouldForwardProp(['active'], props),
-})<PropsActive>(({ theme, active }) => ({
-    color: active ? '#FFF' : 'inherit',
-}));
-
-export const SidebarTextItem = styled(ListItemText)(({ theme }) => ({
-    display: 'block',
-    color: 'inherit',
-}));

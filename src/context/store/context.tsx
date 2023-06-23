@@ -2,7 +2,7 @@
 import { createContext, PropsWithChildren, useReducer } from 'react';
 
 // Import Interfaces
-import { InitialState } from '@interfaces/context';
+import { InitialState } from '../interfaces/store.interface';
 
 // Import Context
 import { useActions } from './action';
@@ -10,20 +10,30 @@ import { reducer } from './reducer';
 
 // Define Initial State
 export const INITIAL_STATE: InitialState = {
-    menu: {
-        name: '',
+    modal: {
+        session: {
+            show: false,
+        },
+        delete: {
+            show: false,
+        },
     },
     pagination: {
-        currentPage: 0,
-        rowPerPage: 10,
-    },
-    filter: {
-        key: '',
-        column: '',
-        direction: 'ASC',
-        status: '',
+        currentPage: 1,
+        limit: 10,
+        sort: 'ASC',
+        search: '',
         startDate: '',
         endDate: '',
+    },
+    notification: {
+        show: false,
+        type: 'error',
+        position: {
+            horizontal: 'center',
+            vertical: 'top',
+        },
+        message: '',
     },
 };
 

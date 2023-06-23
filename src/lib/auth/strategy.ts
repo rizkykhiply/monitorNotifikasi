@@ -19,7 +19,7 @@ const localStrategy = new Local.Strategy((username, password, done) => {
             if (user && validatePassword(user, password)) {
                 done(null, user);
             } else {
-                done(new Error('invalid'));
+                done(new Error('Username or password invalid'));
             }
         })
         .catch((err) => done(err));

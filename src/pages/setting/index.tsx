@@ -9,17 +9,29 @@ import { getLoginSession } from '@lib/auth/auth';
 // Import Components
 import LayoutComponent from '@components/Layout/Layout';
 
+// Import Styles
+import { PageHeaderContainer, PageHeaderLeft, PageSection, PageTitleSubText, PageTitleText } from '@styles/components';
+
 // Define Setting Page
 const SettingPage = () => {
     return (
         <>
             <Head>
-                <title>Setting - Dashboard Template</title>
+                <title>Setting - Harmoni Web Accounting</title>
             </Head>
+            <PageSection>
+                <PageHeaderContainer>
+                    <PageHeaderLeft>
+                        <PageTitleText>Setting</PageTitleText>
+                        <PageTitleSubText>List of all setting</PageTitleSubText>
+                    </PageHeaderLeft>
+                </PageHeaderContainer>
+            </PageSection>
         </>
     );
 };
 
+// Define SSR Setting Page
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const getRequest = context.req as NextApiRequest;
     const getSession = await getLoginSession(getRequest);

@@ -3,10 +3,10 @@ import * as yup from 'yup';
 
 // Define Register Schema
 const registerSchema = yup.object().shape({
-    name: yup.string().required('Nama harus diisi'),
-    username: yup.string().required('Username harus diisi'),
-    email: yup.string().email('Email tidak valid').required('Email harus diisi'),
-    password: yup.string().required('Password harus diisi'),
+    name: yup.string().required('Name is Required'),
+    username: yup.string().required('Username is Required'),
+    email: yup.string().email('Email Invalid').required('Email is Required'),
+    password: yup.string().required('Password is Required'),
 });
 
 // Export Register Schema

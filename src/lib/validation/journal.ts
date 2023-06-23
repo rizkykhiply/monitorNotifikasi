@@ -3,13 +3,24 @@ import * as yup from 'yup';
 
 // Define Journal Schema
 const journalSchema = yup.object().shape({
-    accountId: yup.string().required('No account harus diisi'),
-    date: yup.string().required('Date harus diisi'),
-    totalAmount: yup
-        .string()
-        .matches(/^[0-9]+$/, 'Format amount harus angka')
-        .required('Total amount harus diisi'),
-    trxType: yup.string().required('Transaction Type harus diisi'),
+    date: yup.date().required('Date is Required'),
+    transactionNo: yup.string().required('Transaction No is Required'),
+    currencyId: yup.number().required('Currency is Required'),
+    accountIdHead: yup.number().required('Account No is Required'),
+    trxTypeHead: yup.string().required('Transaction is Required'),
+    descriptionHead: yup.string().optional(),
+    kursHead: yup.string().required('Kurs is Required'),
+    amountHead: yup.string().required('Amount is Required'),
+    transactionsDet: yup.array().of(
+        yup.object().shape({
+            accountIdDet: yup.number().required('Account No is Required'),
+            trxTypeDet: yup.string().required('Transaction is Required'),
+            descriptionDet: yup.string().optional(),
+            kursDet: yup.string().required('Kurs is Required'),
+            amountDet: yup.string().required('Amount is Required'),
+        }),
+    ),
+    notes: yup.string().optional(),
 });
 
 // Export Journal Schema

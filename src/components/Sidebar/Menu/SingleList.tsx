@@ -2,10 +2,10 @@
 import Link from 'next/link';
 
 // Import Interfaces
-import { PropsList } from '@interfaces/components';
+import { PropsList } from '../interfaces/sidebar.interface';
 
 // Import Styles
-import { SidebarButton, SidebarIconBox, SidebarIconItem, SidebarList, SidebarTextItem } from '@styles/components';
+import { SidebarIcon, SidebarIconContainer, SidebarList, SidebarListButton, SidebarListText } from '@styles/components';
 
 const SingleListComponent = (props: PropsList) => {
     // Destructuring Props
@@ -15,12 +15,12 @@ const SingleListComponent = (props: PropsList) => {
         <>
             <SidebarList disablePadding>
                 <Link href={menu.path}>
-                    <SidebarButton active={menu.path === currRoute}>
-                        <SidebarIconItem active={menu.path === currRoute}>
-                            <SidebarIconBox active={menu.path === currRoute}>{<menu.icon fontSize="small" />}</SidebarIconBox>
-                        </SidebarIconItem>
-                        <SidebarTextItem primary={menu.name} primaryTypographyProps={{ fontSize: '0.875rem' }} />
-                    </SidebarButton>
+                    <SidebarListButton active={menu.path === currRoute}>
+                        <SidebarIconContainer active={menu.path === currRoute}>
+                            <SidebarIcon active={menu.path === currRoute}>{<menu.icon fontSize="small" />}</SidebarIcon>
+                        </SidebarIconContainer>
+                        <SidebarListText primary={menu.name} primaryTypographyProps={{ fontSize: '0.875rem' }} />
+                    </SidebarListButton>
                 </Link>
             </SidebarList>
         </>

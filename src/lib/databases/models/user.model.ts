@@ -2,7 +2,7 @@
 import { baseQuery } from '@lib/databases';
 
 // Import Interfaces
-import { CreateUser, FindOneUser, FindOneUserAccess, UpdateUserLogin } from '@interfaces/lib/models';
+import { CreateUser, FindOneUser, FindOneUserAccess, UpdateUserLogin } from '@lib/databases/models/interfaces';
 
 // Import Entities
 import { User } from '../entities';
@@ -12,14 +12,15 @@ const findOneUserAccess = async (params: FindOneUserAccess): Promise<User> => {
     const getQuery = `
         SELECT u.id, u.username, u.password, u.name, a.role FROM users as u 
             JOIN access as a ON(u.access_id = a.id) 
-        WHERE u.username = $1 AND u.status = 1`;
+        WHERE u.username = $1 AND u.status = 1
+    `;
 
     const [result] = await baseQuery<User>(getQuery, [params.username]);
     return result;
 };
 
 // Define Query Find One User
-const fineOneUserLogin = async (params: FindOneUser): Promise<User> => {
+const findOneUserLogin = async (params: FindOneUser): Promise<User> => {
     const [result] = await baseQuery<User>('SELECT username, email FROM users WHERE username = $1', [params.username]);
     return result;
 };
@@ -41,7 +42,7 @@ const updateUserLogin = async (params: UpdateUserLogin): Promise<unknown> => {
 // Assign All Query User
 const exported = {
     findOneUserAccess,
-    fineOneUserLogin,
+    findOneUserLogin,
     createUser,
     updateUserLogin,
 };

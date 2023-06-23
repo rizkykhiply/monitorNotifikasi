@@ -2,15 +2,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import NextCors from 'nextjs-cors';
 
-// Import Auth
-import { getLoginSession } from '../auth/auth';
-
 // Import Constants
 import {
     API_FORBIDDEN,
     API_INTERNAL_SERVER_ERROR,
     API_METHOD_NOT_ALLOWED,
-    API_UNAUTHORIZED,
     SERVER_ERROR_MESSAGE,
     SERVICE_BASE_URL,
     SERVICE_PUBLIC_URL,
@@ -42,7 +38,7 @@ const handlerProtectApi = (handler: (req: NextApiRequest, res: NextApiResponse) 
 
             await handler(req, res);
         } catch (error) {
-            let getUrl = req.url ? req.url : 'middleware';
+            const getUrl = req.url ? req.url : 'middleware';
             logs(getUrl).error(error);
 
             return API_INTERNAL_SERVER_ERROR(res, SERVER_ERROR_MESSAGE);

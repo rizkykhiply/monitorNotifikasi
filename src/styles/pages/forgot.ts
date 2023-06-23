@@ -1,10 +1,6 @@
-// Import Modules
-import { Form } from 'formik';
-
 // Import Material Modules
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 
@@ -14,10 +10,9 @@ export const ForgotSection = styled(Box)(({ theme }) => ({
     alignItems: 'center',
 
     height: '100vh',
-    background: theme.palette.background.paper,
 }));
 
-export const ForgotBoxWrapper = styled(Box)(({ theme }) => ({
+export const ForgotBoxContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -27,20 +22,11 @@ export const ForgotBoxWrapper = styled(Box)(({ theme }) => ({
     border: 'none',
     background: '#FFF',
     borderRadius: '20px',
-    boxShadow: theme.shadows[6],
+    boxShadow: 'rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px',
     padding: '50px',
 }));
 
-export const ForgotFormContainer = styled(Form)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-
-    height: '100%',
-}));
-
-export const ForgotFormBoxHeader = styled(Box)(({ theme }) => ({
+export const ForgotHeaderContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -48,30 +34,24 @@ export const ForgotFormBoxHeader = styled(Box)(({ theme }) => ({
     marginBottom: '30px',
 }));
 
-export const ForgotFormTitle = styled(Typography)(({ theme }) => ({
-    fontSize: theme.typography.h5.fontSize,
-    fontWeight: theme.typography.h5.fontWeight,
-    margin: '20px 0',
-}));
-
-export const ForgotFormText = styled(Typography)(({ theme }) => ({
+export const ForgotHeaderText = styled(Typography)(({ theme }) => ({
     fontSize: theme.typography.h6.fontSize,
     fontWeight: theme.typography.fontWeightLight,
     textAlign: 'center',
 }));
 
-export const ForgotFormControl = styled(FormControl)(({ theme }) => ({
-    marginBottom: '30px',
+export const ForgotLoginContainer = styled(Box)(({ theme }) => ({
+    marginTop: '20px',
 }));
 
-export const ForgotFormBack = styled(Link)(({ theme }) => ({
+export const ForgotLoginRedirect = styled(Link)(({ theme }) => ({
     display: 'flex',
+    justifyContent: 'center',
     alignItems: 'center',
 
     color: 'inherit',
     textDecoration: 'none',
     fontSize: '13px',
     fontWeight: theme.typography.fontWeightLight,
-    marginTop: '20px',
     cursor: 'pointer',
 }));

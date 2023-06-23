@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import dayjs from 'dayjs';
 
 // Import Interfaces
-import { TValidateRandomChar, TValidateString, TValidateTime } from '@interfaces/lib/utils';
+import { IPagination, IPaginationFilter, TValidateRandomChar, TValidateString, TValidateTime } from './interfaces/helper.interface';
 
 // Import Constants
 import { SERVICE_CRYPTO_ALGORITHM, SERVICE_CRYPTO_SECRET_KEY } from '@lib/constants';
@@ -43,7 +43,12 @@ export const validateUpperCase = (request: string): string => {
     return result.join(' ');
 };
 
-export const validateTime = (request: string | Date, type: TValidateTime, value?: number, unit?: dayjs.ManipulateType): string => {
+export const validateTime = (
+    request: string | Date | dayjs.Dayjs,
+    type: TValidateTime,
+    value?: number,
+    unit?: dayjs.ManipulateType,
+): string => {
     if (!dayjs(request).isValid()) return '';
 
     switch (type) {
@@ -58,6 +63,12 @@ export const validateTime = (request: string | Date, type: TValidateTime, value?
 
         case 'date-time-3':
             return dayjs(request).format('YYYYMMDD');
+
+        case 'date-time-4':
+            return dayjs(request).format('DD MMMM YYYY');
+
+        case 'date-start':
+            return dayjs(request).startOf('month').format('YYYY-MM-DD');
 
         case 'date-add':
             if (!value || !unit) return '';
@@ -136,6 +147,46 @@ export const validateDecrypt = (request: string): string | null => {
     const finalResult = Buffer.concat([decipher.update(encryptedText), decipher.final()]).toString();
 
     return finalResult;
+};
+
+export const validateCurrency = (request: number): string => {
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(request);
+};
+
+export const validatePagination = (request: IPagination): IPagination => {
+    const getCurrentPage = +request.currentPage || 1;
+    const getLimit = +request.limit || 10;
+    const getSkip = (getCurrentPage - 1) * getLimit;
+    const getSort = request.sort.toUpperCase() || 'ASC';
+    const getSearch = request?.search?.toLowerCase() || '';
+    const getStartDate = validateTime(request?.startDate || '', 'date');
+    const getEndDate = validateTime(request?.endDate || '', 'date');
+    const getCount = request?.count || 0;
+    const getCountPage = Math.ceil(getCount / getLimit);
+
+    return {
+        pagination: `OFFSET ${getSkip} LIMIT ${getLimit}`,
+        countPage: getCountPage,
+        totalPage: getCount,
+        currentPage: getCurrentPage,
+        limit: getLimit,
+        sort: getSort,
+        search: getSearch,
+        startDate: getStartDate,
+        endDate: getEndDate,
+    };
+};
+
+export const validatePaginationFilter = (request: IPaginationFilter): string => {
+    const getStartDate = request.startDate;
+    const getEndDate = request.endDate;
+    const getColumn = request.column;
+
+    if (getStartDate && getEndDate) {
+        return `AND ${getColumn} BETWEEN '${getStartDate}' AND '${getEndDate}'`;
+    }
+
+    return '';
 };
 
 export const validateHash = async (request: string): Promise<string> => {
