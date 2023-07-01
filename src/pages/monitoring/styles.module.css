@@ -1,0 +1,41 @@
+.monitoring_container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.monitoring_title {
+    display: block;
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+.monitoring_system {
+    display: flex;
+    align-items: center;
+}
+
+.monitoring_data:not(:last-child) {
+    margin-bottom: 28px;
+}
+
+.monitoring_data {
+    display: flex;
+    flex-direction: column;
+}
+
+.monitoring_data_title {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.monitoring_data_text {
+    font-size: 24px;
+}
+
+.monitoring_image {
+    margin-left: 200px;
+}

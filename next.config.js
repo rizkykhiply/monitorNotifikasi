@@ -22,7 +22,7 @@ const nextConfig = {
         return [
             {
                 source: '/',
-                destination: '/login',
+                destination: '/monitoring',
                 permanent: false,
             },
         ];

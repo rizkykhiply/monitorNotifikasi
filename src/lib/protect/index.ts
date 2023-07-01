@@ -3,14 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import NextCors from 'nextjs-cors';
 
 // Import Constants
-import {
-    API_FORBIDDEN,
-    API_INTERNAL_SERVER_ERROR,
-    API_METHOD_NOT_ALLOWED,
-    SERVER_ERROR_MESSAGE,
-    SERVICE_BASE_URL,
-    SERVICE_PUBLIC_URL,
-} from '../constants';
+import { API_FORBIDDEN, API_INTERNAL_SERVER_ERROR, API_METHOD_NOT_ALLOWED, SERVICE_BASE_URL, SERVICE_PUBLIC_URL } from '../constants';
 
 // Import Logs
 import { logs } from '../logs';
@@ -41,7 +34,7 @@ const handlerProtectApi = (handler: (req: NextApiRequest, res: NextApiResponse) 
             const getUrl = req.url ? req.url : 'middleware';
             logs(getUrl).error(error);
 
-            return API_INTERNAL_SERVER_ERROR(res, SERVER_ERROR_MESSAGE);
+            return API_INTERNAL_SERVER_ERROR(res, 'Internal Server Error, Please Try Again');
         }
     };
 };

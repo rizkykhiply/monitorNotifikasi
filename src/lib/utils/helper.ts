@@ -1,6 +1,5 @@
 // Import Modules
 import { createCipheriv, createDecipheriv, randomBytes } from 'crypto';
-import bcrypt from 'bcryptjs';
 import dayjs from 'dayjs';
 
 // Import Interfaces
@@ -187,12 +186,4 @@ export const validatePaginationFilter = (request: IPaginationFilter): string => 
     }
 
     return '';
-};
-
-export const validateHash = async (request: string): Promise<string> => {
-    return await bcrypt.hash(request, 10);
-};
-
-export const validateCompare = async (request: string, compare: string): Promise<Boolean> => {
-    return await bcrypt.compare(request, compare);
 };
