@@ -28,7 +28,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 // Define Hooks Transaction
 const useHooksTransaction = (): HooksTransaction => {
-    const { data, isLoading } = useSWR(getTransactionUrl, fetcher, { refreshInterval: 1000 });
+    const { data, isLoading } = useSWR(getTransactionUrl, fetcher, { refreshInterval: 1000, keepPreviousData: true });
 
     return {
         data: data?.data,
