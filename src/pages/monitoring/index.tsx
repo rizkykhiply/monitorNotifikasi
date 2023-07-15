@@ -18,7 +18,7 @@ import Image from 'next/image';
 
 // Define Monitoring Page
 const MonitoringPage = () => {
-    const { data, isLoading } = useHooksTransaction();
+    const { data } = useHooksTransaction();
 
     return (
         <>
@@ -59,10 +59,10 @@ const MonitoringPage = () => {
                             <Image src={DefaultImage} alt="Image" width={500} height={350} />
                         </div>
                         {/* <div className={styles.monitoring_image}>
-                        <Image src={data?.imageIn} alt="Image" width={400} height={400} />
+                        <Image src={data?.imageIn} alt="Image" width={500} height={350} />
                     </div> */}
                         {/* <div className={styles.monitoring_image}>
-                        <Image src={data?.imageOut} alt="Image" width={400} height={400} />
+                        <Image src={data?.imageOut} alt="Image" width={500} height={350} />
                     </div> */}
                     </div>
                 </div>
