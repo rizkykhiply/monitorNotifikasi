@@ -2,8 +2,12 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 
+// Import Hooks
+import { useHooksTransaction } from '@hooks/transaction';
+
 // Import Component
 import Navbar from '@components/Navbar/Navbar';
+import Footer from '@components/Footer/Footer';
 
 // Import Assets
 import DefaultImage from '../../../public/default-image.png';
@@ -14,39 +18,56 @@ import Image from 'next/image';
 
 // Define Monitoring Page
 const MonitoringPage = () => {
+    const { data, isLoading } = useHooksTransaction();
+
     return (
         <>
             <Head>
-                <title>Monitoring - SCG Monitoring</title>
+                <title>Monitoring - SCG Indonesia</title>
             </Head>
-            <Navbar />
-            <div className={styles.monitoring_container}>
-                <span className={styles.monitoring_title}>Monitoring Visitor</span>
-
-                <div className={styles.monitoring_system}>
-                    <div>
-                        <div className={styles.monitoring_data}>
-                            <span className={styles.monitoring_data_title}>Nama</span>
-                            <span className={styles.monitoring_data_text}>Rendy Ferdiansyah</span>
+            <section className={styles.monitoring_section}>
+                <Navbar />
+                <div className={styles.monitoring_container}>
+                    <span className={styles.monitoring_title}>Monitoring System</span>
+                    <span className={styles.monitoring_sub_title}>(Gate IN)</span>
+                    {/* <span className={styles.monitoring_sub_title}>(Gate OUT)</span> */}
+                    <div className={styles.monitoring_system}>
+                        <div>
+                            <div className={styles.monitoring_data}>
+                                <span className={styles.monitoring_data_title}>Nama</span>
+                                <span className={styles.monitoring_data_text}>
+                                    {data?.nama_visitor ? data.nama_visitor : data?.nama_karyawan}
+                                </span>
+                            </div>
+                            <div className={styles.monitoring_data}>
+                                <span className={styles.monitoring_data_title}>Divisi</span>
+                                <span className={styles.monitoring_data_text}>{data?.divisi}</span>
+                            </div>
+                            <div className={styles.monitoring_data}>
+                                <span className={styles.monitoring_data_title}>No Polisi</span>
+                                <span className={styles.monitoring_data_text}>
+                                    {data?.no_polisi_visitor ? data.no_polisi_visitor : data?.no_polisi_karyawan}
+                                </span>
+                            </div>
+                            <div className={styles.monitoring_data}>
+                                <span className={styles.monitoring_data_title}>Time</span>
+                                <span className={styles.monitoring_data_text}>{data?.dateIn}</span>
+                                {/* <span className={styles.monitoring_data_text}>{data?.dateOut}</span> */}
+                            </div>
                         </div>
-                        <div className={styles.monitoring_data}>
-                            <span className={styles.monitoring_data_title}>Divisi</span>
-                            <span className={styles.monitoring_data_text}>IT</span>
+                        <div className={styles.monitoring_image}>
+                            <Image src={DefaultImage} alt="Image" width={500} height={350} />
                         </div>
-                        <div className={styles.monitoring_data}>
-                            <span className={styles.monitoring_data_title}>No Polisi</span>
-                            <span className={styles.monitoring_data_text}>B1234UKM</span>
-                        </div>
-                        <div className={styles.monitoring_data}>
-                            <span className={styles.monitoring_data_title}>Time</span>
-                            <span className={styles.monitoring_data_text}>2023-07-01 00:00:00</span>
-                        </div>
-                    </div>
-                    <div className={styles.monitoring_image}>
-                        <Image src={DefaultImage} alt="Image" width={400} height={400} />
+                        {/* <div className={styles.monitoring_image}>
+                        <Image src={data?.imageIn} alt="Image" width={400} height={400} />
+                    </div> */}
+                        {/* <div className={styles.monitoring_image}>
+                        <Image src={data?.imageOut} alt="Image" width={400} height={400} />
+                    </div> */}
                     </div>
                 </div>
-            </div>
+                <Footer />
+            </section>
         </>
     );
 };

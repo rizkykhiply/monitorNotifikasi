@@ -17,12 +17,9 @@
         "baseUrl": ".",
         "paths": {
             "@components/*": ["src/components/*"],
-            "@context/*": ["src/context/*"],
             "@hooks/*": ["src/hooks/*"],
-            "@interfaces/*": ["src/interfaces/*"],
             "@lib/*": ["src/lib/*"],
             "@pages/*": ["src/pages/*"],
-            "@pagesComponents/*": ["src/pagesComponents/*"],
             "@styles/*": ["src/styles/*"]
         }
     },
