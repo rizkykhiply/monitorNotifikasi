@@ -16,7 +16,7 @@ const handlerProtectApi = (handler: (req: NextApiRequest, res: NextApiResponse) 
             const getMethod = req?.method ? req.method : '';
 
             if (getHeaderReferer !== SERVICE_PUBLIC_URL) {
-                API_FORBIDDEN(res);
+                return API_FORBIDDEN(res);
             }
 
             await NextCors(req, res, {
