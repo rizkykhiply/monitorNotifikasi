@@ -5,7 +5,7 @@ import { baseQuery } from '@lib/databases';
 import { SERVICE_KODEPOS } from '@lib/constants';
 
 // Define Query Find All Transaction In
-const findAllTransactionIn = async () => {
+const findAllTransactionIn = async (kodePos: string) => {
     const getQuery = `
         SELECT b.namaLengkap as nama_visitor, c.nama as nama_karyawan, 
         CASE
@@ -19,17 +19,17 @@ const findAllTransactionIn = async () => {
         LEFT JOIN tblDivisi as d ON c.idDivisi = d.id
         WHERE 
             a.isIn = 1 AND a.isOut = 0 AND
-            a.kodePos = ${SERVICE_KODEPOS}
+            a.kodePos = ?
         ORDER BY a.dateIn DESC
         LIMIT 1
     `;
 
-    const [result] = await baseQuery(getQuery, []);
+    const [result] = await baseQuery(getQuery, [kodePos]);
     return result;
 };
 
 // Define Query Find All Transaction Out
-const findAllTransactionOut = async () => {
+const findAllTransactionOut = async (kodePos: string) => {
     const getQuery = `
         SELECT b.namaLengkap as nama_visitor, c.nama as nama_karyawan, 
         CASE
@@ -43,12 +43,12 @@ const findAllTransactionOut = async () => {
         LEFT JOIN tblDivisi as d ON c.idDivisi = d.id
         WHERE 
             a.isIn = 1 AND a.isOut = 1 AND
-            a.kodePos = ${SERVICE_KODEPOS}
+            a.kodePos = ?
         ORDER BY a.dateOut DESC
         LIMIT 1
     `;
 
-    const [result] = await baseQuery(getQuery, []);
+    const [result] = await baseQuery(getQuery, [kodePos]);
     return result;
 };
 
