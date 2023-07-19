@@ -1,9 +1,6 @@
 // Import Base Query
 import { baseQuery } from '@lib/databases';
 
-// Import Constant
-import { SERVICE_KODEPOS } from '@lib/constants';
-
 // Define Query Find All Transaction In
 const findAllTransactionIn = async (kodePos: string) => {
     const getQuery = `
@@ -19,6 +16,7 @@ const findAllTransactionIn = async (kodePos: string) => {
         LEFT JOIN tblDivisi as d ON c.idDivisi = d.id
         WHERE 
             a.isIn = 1 AND a.isOut = 0 AND
+            DATE_ADD(a.dateIn, INTERVAL 15 SECOND) > NOW() AND
             a.kodePos = ?
         ORDER BY a.dateIn DESC
         LIMIT 1
@@ -43,6 +41,7 @@ const findAllTransactionOut = async (kodePos: string) => {
         LEFT JOIN tblDivisi as d ON c.idDivisi = d.id
         WHERE 
             a.isIn = 1 AND a.isOut = 1 AND
+            DATE_ADD(a.dateOut, INTERVAL 15 SECOND) > NOW() AND
             a.kodePos = ?
         ORDER BY a.dateOut DESC
         LIMIT 1

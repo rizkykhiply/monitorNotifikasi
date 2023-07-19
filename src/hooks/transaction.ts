@@ -21,14 +21,15 @@ interface HooksTransaction {
 }
 
 // Define All Transaction Url
-const getTransactionUrl = '/api/transaction';
+const getTransactionUrl = '/api/transaction?';
 
 // Define Custom Fetcher
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 // Define Hooks Transaction
-const useHooksTransaction = (): HooksTransaction => {
-    const { data, isLoading } = useSWR(getTransactionUrl, fetcher, { refreshInterval: 1000, keepPreviousData: true });
+const useHooksTransaction = (kodePos: string, gate: string): HooksTransaction => {
+    const getQuery = `kodePos=${kodePos}&gate=${gate}`;
+    const { data, isLoading } = useSWR(getTransactionUrl + getQuery, fetcher, { refreshInterval: 1000, keepPreviousData: true });
 
     return {
         data: data?.data,
