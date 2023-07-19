@@ -3,7 +3,6 @@ const SERVICE_NODE_ENV = process.env.NODE_ENV;
 const SERVICE_NAME = process.env.SERVICE_NAME;
 const SERVICE_BASE_URL = process.env.SERVICE_BASE_URL;
 const SERVICE_PUBLIC_URL = process.env.SERVICE_PUBLIC_URL;
-const SERVICE_KODEPOS = process.env.SERVICE_KODEPOS || '';
 
 // Define Constants Service DB Variables
 const SERVICE_DATABASE_HOST = process.env.SERVICE_DATABASE_HOST;
@@ -22,7 +21,6 @@ export {
     SERVICE_NAME,
     SERVICE_BASE_URL,
     SERVICE_PUBLIC_URL,
-    SERVICE_KODEPOS,
     SERVICE_DATABASE_HOST,
     SERVICE_DATABASE_PORT,
     SERVICE_DATABASE_USER,
