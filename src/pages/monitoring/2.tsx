@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 
 // Import Interfaces
-import { PropsMonitoring } from './interfaces';
+import { PropsMonitoring } from '@interfaces/pages';
 
 // Import Hooks
 import { useHooksTransaction } from '@hooks/transaction';
