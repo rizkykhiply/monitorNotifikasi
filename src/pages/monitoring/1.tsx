@@ -61,11 +61,13 @@ const MonitoringPage = (props: PropsMonitoring) => {
                             </div>
                         </div>
                         <div className={styles.monitoring_image}>
-                            <Image src={DefaultImage} alt="Image" width={500} height={350} />
+                            <Image
+                                src={data?.image_visitor ? data.image_visitor : data?.image_karyawan ? data.image_karyawan : DefaultImage}
+                                alt="Image"
+                                width={500}
+                                height={350}
+                            />
                         </div>
-                        {/* <div className={styles.monitoring_image}>
-                        <Image src={data?.imageIn} alt="Image" width={500} height={350} />
-                    </div> */}
                     </div>
                 </div>
                 <Footer />

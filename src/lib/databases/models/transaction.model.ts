@@ -8,7 +8,7 @@ const findAllTransactionIn = async (kodePos: string) => {
         CASE
             WHEN d.nama IS NULL THEN "-"
             ELSE d.nama
-        END AS divisi, b.noPolisi as no_polisi_visitor, c.noPolisi as no_polisi_karyawan, a.imgIn as imageIn, 
+        END AS divisi, b.noPolisi as no_polisi_visitor, c.noPolisi as no_polisi_karyawan, b.imageCam as image_visitor, c.image as image_karyawan, 
         DATE_FORMAT(a.dateIn, "%Y-%m-%d %H:%i:%s") as dateIn
         FROM tblTransaksi as a
         LEFT JOIN tblRegistrasi as b ON a.idVisitor = b.id
@@ -33,7 +33,7 @@ const findAllTransactionOut = async (kodePos: string) => {
         CASE
             WHEN d.nama IS NULL THEN "-"
             ELSE d.nama
-        END AS divisi, b.noPolisi as no_polisi_visitor, c.noPolisi as no_polisi_karyawan, a.imgOut as imageOut, 
+        END AS divisi, b.noPolisi as no_polisi_visitor, c.noPolisi as no_polisi_karyawan, b.imageCam as image_visitor, c.image as image_karyawan, 
         DATE_FORMAT(a.dateOut, "%Y-%m-%d %H:%i:%s") as dateOut
         FROM tblTransaksi as a
         LEFT JOIN tblRegistrasi as b ON a.idVisitor = b.id

@@ -8,8 +8,8 @@ interface TransactionData {
     divisi: string;
     no_polisi_visitor: string;
     no_polisi_karyawan: string;
-    imageIn: string;
-    imageOut: string;
+    image_visitor: string;
+    image_karyawan: string;
     dateIn: string;
     dateOut: string;
 }
