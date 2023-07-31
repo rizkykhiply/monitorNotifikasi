@@ -18,6 +18,14 @@ const nextConfig = {
     devIndicators: {
         buildActivity: false,
     },
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'http',
+                hostname: 'localhost',
+            },
+        ],
+    },
     async redirects() {
         return [
             {
