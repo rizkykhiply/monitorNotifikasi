@@ -1,14 +1,11 @@
 // Import Base Query
 import { baseQuery } from '@lib/databases';
 
-// Define Query Find All Transaction In
-const findAllTransactionIn = async (kodePos: string) => {
+// Define Query Find One Transaction In
+const findOneTransactionIn = async (kodePos: string) => {
     const getQuery = `
         SELECT b.namaLengkap as nama_visitor, c.nama as nama_karyawan, 
-        CASE
-            WHEN d.nama IS NULL THEN "-"
-            ELSE d.nama
-        END AS divisi, b.noPolisi as no_polisi_visitor, c.noPolisi as no_polisi_karyawan, b.imageCam as image_visitor, c.image as image_karyawan, 
+        d.nama as divisi, b.noPolisi as no_polisi_visitor, c.noPolisi as no_polisi_karyawan, b.imageCam as image_visitor, c.image as image_karyawan, 
         DATE_FORMAT(a.dateIn, "%Y-%m-%d %H:%i:%s") as dateIn
         FROM tblTransaksi as a
         LEFT JOIN tblRegistrasi as b ON a.idVisitor = b.id
@@ -26,14 +23,11 @@ const findAllTransactionIn = async (kodePos: string) => {
     return result;
 };
 
-// Define Query Find All Transaction Out
-const findAllTransactionOut = async (kodePos: string) => {
+// Define Query Find One Transaction Out
+const findOneTransactionOut = async (kodePos: string) => {
     const getQuery = `
         SELECT b.namaLengkap as nama_visitor, c.nama as nama_karyawan, 
-        CASE
-            WHEN d.nama IS NULL THEN "-"
-            ELSE d.nama
-        END AS divisi, b.noPolisi as no_polisi_visitor, c.noPolisi as no_polisi_karyawan, b.imageCam as image_visitor, c.image as image_karyawan, 
+        d.nama as divisi, b.noPolisi as no_polisi_visitor, c.noPolisi as no_polisi_karyawan, b.imageCam as image_visitor, c.image as image_karyawan, 
         DATE_FORMAT(a.dateOut, "%Y-%m-%d %H:%i:%s") as dateOut
         FROM tblTransaksi as a
         LEFT JOIN tblRegistrasi as b ON a.idVisitor = b.id
@@ -53,8 +47,8 @@ const findAllTransactionOut = async (kodePos: string) => {
 
 // Assign All Query Transaction
 const exported = {
-    findAllTransactionIn,
-    findAllTransactionOut,
+    findOneTransactionIn,
+    findOneTransactionOut,
 };
 
 // Export Query Transaction
