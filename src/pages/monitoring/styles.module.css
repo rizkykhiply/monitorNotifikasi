@@ -2,36 +2,48 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
 
     height: 100vh;
 }
 
 .monitoring_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 50px 50px;
+    grid-auto-flow: row;
+    grid-template-areas:
+        '. .'
+        '. .';
+
+    padding: 0 50px;
     letter-spacing: 1px;
+}
+
+.monitoring_header {
+    text-align: center;
 }
 
 .monitoring_title {
     display: block;
-    font-size: 36px;
+    font-size: 22px;
     font-weight: 700;
-    text-align: center;
+    margin-bottom: 30px;
 }
 
-.monitoring_sub_title {
+.monitoring_title::after {
     display: block;
-    font-size: 32px;
-    text-align: center;
-    margin-bottom: 100px;
+    content: '';
+    height: 1px;
+    width: 100%;
+    background: #d5d5d5;
+    margin-top: 8px;
 }
 
-.monitoring_system {
+.monitoring_detail {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-}
-
-.monitoring_data:not(:last-child) {
-    margin-bottom: 28px;
 }
 
 .monitoring_data {
@@ -39,15 +51,15 @@
     flex-direction: column;
 }
 
+.monitoring_data:not(:last-child) {
+    margin-bottom: 30px;
+}
+
 .monitoring_data_title {
-    font-size: 30px;
+    font-size: 22px;
     font-weight: 700;
 }
 
 .monitoring_data_text {
-    font-size: 24px;
-}
-
-.monitoring_image {
-    margin-left: 200px;
+    font-size: 18px;
 }
