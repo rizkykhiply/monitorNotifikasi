@@ -1,8 +1,14 @@
 // Import Modules
 import useSWR from 'swr';
 
+// Define Params Transaction
+interface ITransactions {
+    kodePos: string;
+    gate: string;
+}
+
 // Define Transaction Data
-interface TransactionData {
+interface TransactionData extends ITransactions {
     nama_visitor: string;
     nama_karyawan: string;
     divisi: string;
@@ -16,7 +22,7 @@ interface TransactionData {
 
 // Define Hooks Transaction
 interface HooksTransaction {
-    data: TransactionData;
+    data: TransactionData[];
     isLoading: boolean;
 }
 
@@ -27,9 +33,12 @@ const getTransactionUrl = '/api/transaction?';
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 // Define Hooks Transaction
-const useHooksTransaction = (kodePos: string, gate: string): HooksTransaction => {
-    const getQuery = `kodePos=${kodePos}&gate=${gate}`;
-    const { data, isLoading } = useSWR(getTransactionUrl + getQuery, fetcher, { refreshInterval: 1000, keepPreviousData: true });
+const useHooksTransaction = (params: ITransactions[]): HooksTransaction => {
+    const getKodePos = params.map((value) => value.kodePos).join(',');
+    const getGate = params.map((value) => value.gate).join(',');
+
+    const getQuery = `kodePos=${getKodePos}&gate=${getGate}`;
+    const { data, isLoading } = useSWR(getTransactionUrl + getQuery, fetcher, { refreshInterval: 3000, keepPreviousData: true });
 
     return {
         data: data?.data,
