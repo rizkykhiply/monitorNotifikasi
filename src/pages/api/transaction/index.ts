@@ -11,12 +11,24 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const getKodePos = req.query.kodePos as string;
     const getGate = req.query.gate as string;
 
-    let getTransaction = '';
+    const arrKodePos = getKodePos.split(',');
+    const arrGate = getGate.split(',');
 
-    if (getGate === 'in') {
-        getTransaction = await models.transaction.findAllTransactionIn(getKodePos);
-    } else {
-        getTransaction = await models.transaction.findAllTransactionOut(getKodePos);
+    const getTransaction = [];
+
+    for (let index = 0; index < arrKodePos.length; index++) {
+        const kodePos = arrKodePos[index].toUpperCase();
+        const gate = arrGate[index].toLowerCase();
+
+        let getData = {};
+
+        if (gate === 'in') {
+            getData = await models.transaction.findOneTransactionIn(kodePos);
+        } else {
+            getData = await models.transaction.findOneTransactionOut(kodePos);
+        }
+
+        getTransaction.push({ ...getData, gate, kodePos });
     }
 
     return API_OK(res, getTransaction);
