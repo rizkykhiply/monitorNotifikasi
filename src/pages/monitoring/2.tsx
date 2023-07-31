@@ -21,7 +21,8 @@ import styles from './styles.module.css';
 
 // Define Monitoring Page
 const MonitoringPage = (props: PropsMonitoring) => {
-    const { data } = useHooksTransaction(props.kodePos, props.gate);
+    // Define Hooks Transaction
+    const { data } = useHooksTransaction(props.pos);
 
     return (
         <>
@@ -31,44 +32,59 @@ const MonitoringPage = (props: PropsMonitoring) => {
             <section className={styles.monitoring_section}>
                 <Navbar />
                 <div className={styles.monitoring_container}>
-                    <span className={styles.monitoring_title}>Monitoring System</span>
-                    <span className={styles.monitoring_sub_title}>(Gate OUT)</span>
-                    <div className={styles.monitoring_system}>
-                        <div>
-                            <div className={styles.monitoring_data}>
-                                <span className={styles.monitoring_data_title}>Nama</span>
-                                <span className={styles.monitoring_data_text}>
-                                    {data?.nama_visitor ? data.nama_visitor : data?.nama_karyawan ? data.nama_karyawan : '-'}
+                    {data?.map((value, index) => (
+                        <div key={index}>
+                            <div className={styles.monitoring_header}>
+                                <span className={styles.monitoring_title}>
+                                    Monitoring System ({value.gate.toUpperCase()} - {value.kodePos})
                                 </span>
                             </div>
-                            <div className={styles.monitoring_data}>
-                                <span className={styles.monitoring_data_title}>Divisi</span>
-                                <span className={styles.monitoring_data_text}>{data?.divisi ? data.divisi : '-'}</span>
-                            </div>
-                            <div className={styles.monitoring_data}>
-                                <span className={styles.monitoring_data_title}>No Polisi</span>
-                                <span className={styles.monitoring_data_text}>
-                                    {data?.no_polisi_visitor
-                                        ? data.no_polisi_visitor
-                                        : data?.no_polisi_karyawan
-                                        ? data.no_polisi_karyawan
-                                        : '-'}
-                                </span>
-                            </div>
-                            <div className={styles.monitoring_data}>
-                                <span className={styles.monitoring_data_title}>Time</span>
-                                <span className={styles.monitoring_data_text}>{data?.dateOut ? data.dateOut : '-'}</span>
+                            <div className={styles.monitoring_detail}>
+                                <div>
+                                    <div className={styles.monitoring_data}>
+                                        <span className={styles.monitoring_data_title}>Nama</span>
+                                        <span className={styles.monitoring_data_text}>
+                                            {value?.nama_visitor ? value.nama_visitor : value?.nama_karyawan ? value.nama_karyawan : '-'}
+                                        </span>
+                                    </div>
+                                    <div className={styles.monitoring_data}>
+                                        <span className={styles.monitoring_data_title}>Divisi</span>
+                                        <span className={styles.monitoring_data_text}>{value?.divisi ? value.divisi : '-'}</span>
+                                    </div>
+                                    <div className={styles.monitoring_data}>
+                                        <span className={styles.monitoring_data_title}>No Polisi</span>
+                                        <span className={styles.monitoring_data_text}>
+                                            {value?.no_polisi_visitor
+                                                ? value.no_polisi_visitor
+                                                : value?.no_polisi_karyawan
+                                                ? value.no_polisi_karyawan
+                                                : '-'}
+                                        </span>
+                                    </div>
+                                    <div className={styles.monitoring_data}>
+                                        <span className={styles.monitoring_data_title}>Time</span>
+                                        <span className={styles.monitoring_data_text}>
+                                            {value?.dateIn ? value.dateIn : value?.dateOut ? value.dateOut : '-'}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <Image
+                                        src={
+                                            value?.image_visitor
+                                                ? value.image_visitor
+                                                : value?.image_karyawan
+                                                ? value.image_karyawan
+                                                : DefaultImage
+                                        }
+                                        alt="Image"
+                                        width={400}
+                                        height={250}
+                                    />
+                                </div>
                             </div>
                         </div>
-                        <div className={styles.monitoring_image}>
-                            <Image
-                                src={data?.image_visitor ? data.image_visitor : data?.image_karyawan ? data.image_karyawan : DefaultImage}
-                                alt="Image"
-                                width={500}
-                                height={350}
-                            />
-                        </div>
-                    </div>
+                    ))}
                 </div>
                 <Footer />
             </section>
@@ -78,10 +94,28 @@ const MonitoringPage = (props: PropsMonitoring) => {
 
 // Define SSR Monitoring Page
 export const getServerSideProps: GetServerSideProps = async (context) => {
+    const getPos = [
+        {
+            kodePos: 'PM02',
+            gate: 'in',
+        },
+        {
+            kodePos: 'PM03',
+            gate: 'out',
+        },
+        {
+            kodePos: 'PM04',
+            gate: 'in',
+        },
+        {
+            kodePos: 'PM05',
+            gate: 'in',
+        },
+    ];
+
     return {
         props: {
-            kodePos: 'PK2',
-            gate: 'out',
+            pos: getPos,
         },
     };
 };
