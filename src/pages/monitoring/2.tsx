@@ -100,16 +100,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             gate: 'in',
         },
         {
-            kodePos: 'PM03',
+            kodePos: 'PK02',
             gate: 'out',
         },
         {
-            kodePos: 'PM04',
+            kodePos: 'PM03',
             gate: 'in',
         },
         {
-            kodePos: 'PM05',
-            gate: 'in',
+            kodePos: 'PK03',
+            gate: 'out',
         },
     ];
 

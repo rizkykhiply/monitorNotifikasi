@@ -96,20 +96,20 @@ const MonitoringPage = (props: PropsMonitoring) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const getPos = [
         {
-            kodePos: 'PM02',
+            kodePos: 'PM01',
             gate: 'in',
         },
         {
-            kodePos: 'PM03',
+            kodePos: 'PK01',
             gate: 'out',
         },
         {
-            kodePos: 'PM04',
+            kodePos: 'TI01',
             gate: 'in',
         },
         {
-            kodePos: 'PM05',
-            gate: 'in',
+            kodePos: 'TO01',
+            gate: 'out',
         },
     ];
 
