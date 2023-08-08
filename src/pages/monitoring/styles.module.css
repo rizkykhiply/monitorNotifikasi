@@ -28,7 +28,7 @@
 .monitoring_indicator_in {
     position: absolute;
     top: -5px;
-    right: 0;
+    left: 0;
 
     display: block;
     height: 30px;
@@ -41,7 +41,7 @@
 .monitoring_indicator_out {
     position: absolute;
     top: -5px;
-    right: 0;
+    left: 0;
 
     display: block;
     height: 30px;
@@ -96,7 +96,7 @@
         background: #fff;
     }
     100% {
-        background: #38f90e;
+        background: #04e119;
     }
 }
 
