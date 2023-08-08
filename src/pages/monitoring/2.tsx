@@ -38,6 +38,15 @@ const MonitoringPage = (props: PropsMonitoring) => {
                                 <span className={styles.monitoring_title}>
                                     Monitoring System ({value.gate.toUpperCase()} - {value.kodePos})
                                 </span>
+                                <span
+                                    className={
+                                        value.gate === 'in' && value.dateIn
+                                            ? styles.monitoring_indicator_in
+                                            : value.gate === 'out' && value.dateOut
+                                            ? styles.monitoring_indicator_out
+                                            : ''
+                                    }
+                                />
                             </div>
                             <div className={styles.monitoring_detail}>
                                 <div>
@@ -100,16 +109,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             gate: 'in',
         },
         {
-            kodePos: 'PM03',
+            kodePos: 'PK02',
             gate: 'out',
         },
         {
-            kodePos: 'PM04',
+            kodePos: 'PM03',
             gate: 'in',
         },
         {
-            kodePos: 'PM05',
-            gate: 'in',
+            kodePos: 'PK03',
+            gate: 'out',
         },
     ];
 

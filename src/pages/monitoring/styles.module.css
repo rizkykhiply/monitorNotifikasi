@@ -21,7 +21,34 @@
 }
 
 .monitoring_header {
+    position: relative;
     text-align: center;
+}
+
+.monitoring_indicator_in {
+    position: absolute;
+    top: -5px;
+    right: 0;
+
+    display: block;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+
+    animation: indicatorIn 2s infinite;
+}
+
+.monitoring_indicator_out {
+    position: absolute;
+    top: -5px;
+    right: 0;
+
+    display: block;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+
+    animation: indicatorOut 2s infinite;
 }
 
 .monitoring_title {
@@ -62,4 +89,22 @@
 
 .monitoring_data_text {
     font-size: 18px;
+}
+
+@keyframes indicatorIn {
+    0% {
+        background: #fff;
+    }
+    100% {
+        background: #38f90e;
+    }
+}
+
+@keyframes indicatorOut {
+    0% {
+        background: #fff;
+    }
+    100% {
+        background: #ee2524;
+    }
 }
