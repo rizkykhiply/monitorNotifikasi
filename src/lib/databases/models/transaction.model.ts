@@ -6,7 +6,7 @@ const findOneTransactionIn = async (kodePos: string) => {
     const getQuery = `
         SELECT b.namaLengkap as nama_visitor, c.nama as nama_karyawan, 
         d.nama as divisi, b.noPolisi as no_polisi_visitor, c.noPolisi as no_polisi_karyawan, b.imageCam as image_visitor, c.image as image_karyawan, 
-        DATE_FORMAT(a.dateIn, "%Y-%m-%d %H:%i:%s") as dateIn
+        DATE_FORMAT(a.dateIn, "%d-%m-%Y %H:%i:%s") as dateIn
         FROM tblTransaksi as a
         LEFT JOIN tblRegistrasi as b ON a.idVisitor = b.id
         LEFT JOIN tblKaryawan as c ON a.idKaryawan = c.id
@@ -14,7 +14,7 @@ const findOneTransactionIn = async (kodePos: string) => {
         WHERE 
             a.isIn = 1 AND a.isOut = 0 AND
             DATE_ADD(a.dateIn, INTERVAL 15 SECOND) > NOW() AND
-            a.kodePos = ?
+            a.kodePosIn = ?
         ORDER BY a.dateIn DESC
         LIMIT 1
     `;
@@ -28,7 +28,7 @@ const findOneTransactionOut = async (kodePos: string) => {
     const getQuery = `
         SELECT b.namaLengkap as nama_visitor, c.nama as nama_karyawan, 
         d.nama as divisi, b.noPolisi as no_polisi_visitor, c.noPolisi as no_polisi_karyawan, b.imageCam as image_visitor, c.image as image_karyawan, 
-        DATE_FORMAT(a.dateOut, "%Y-%m-%d %H:%i:%s") as dateOut
+        DATE_FORMAT(a.dateOut, "%d-%m-%Y %H:%i:%s") as dateOut
         FROM tblTransaksi as a
         LEFT JOIN tblRegistrasi as b ON a.idVisitor = b.id
         LEFT JOIN tblKaryawan as c ON a.idKaryawan = c.id
@@ -36,7 +36,7 @@ const findOneTransactionOut = async (kodePos: string) => {
         WHERE 
             a.isIn = 1 AND a.isOut = 1 AND
             DATE_ADD(a.dateOut, INTERVAL 15 SECOND) > NOW() AND
-            a.kodePos = ?
+            a.kodePosOut = ?
         ORDER BY a.dateOut DESC
         LIMIT 1
     `;

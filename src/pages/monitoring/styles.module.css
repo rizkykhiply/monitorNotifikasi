@@ -10,13 +10,13 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 50px 50px;
+    gap: 30px 30px;
     grid-auto-flow: row;
     grid-template-areas:
         '. .'
         '. .';
 
-    padding: 0 50px;
+    padding: 30px;
     letter-spacing: 1px;
 }
 
@@ -28,27 +28,25 @@
 .monitoring_indicator_in {
     position: absolute;
     top: -5px;
-    left: 0;
+    right: 0;
 
     display: block;
     height: 30px;
     width: 30px;
     border-radius: 50%;
-
-    animation: indicatorIn 2s infinite;
+    background: #04e119;
 }
 
 .monitoring_indicator_out {
     position: absolute;
     top: -5px;
-    left: 0;
+    right: 0;
 
     display: block;
     height: 30px;
     width: 30px;
     border-radius: 50%;
-
-    animation: indicatorOut 2s infinite;
+    background: #ee2524;
 }
 
 .monitoring_title {
@@ -79,7 +77,7 @@
 }
 
 .monitoring_data:not(:last-child) {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 .monitoring_data_title {
@@ -89,22 +87,4 @@
 
 .monitoring_data_text {
     font-size: 18px;
-}
-
-@keyframes indicatorIn {
-    0% {
-        background: #fff;
-    }
-    100% {
-        background: #04e119;
-    }
-}
-
-@keyframes indicatorOut {
-    0% {
-        background: #fff;
-    }
-    100% {
-        background: #ee2524;
-    }
 }

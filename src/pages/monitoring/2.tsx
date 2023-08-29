@@ -9,12 +9,8 @@ import { PropsMonitoring } from '@interfaces/pages';
 // Import Hooks
 import { useHooksTransaction } from '@hooks/transaction';
 
-// Import Component
-import Navbar from '@components/Navbar/Navbar';
-import Footer from '@components/Footer/Footer';
-
 // Import Assets
-import DefaultImage from '../../../public/default-image.png';
+import DefaultImage from '../../../public/default-image.jpg';
 
 // Import Styles
 import styles from './styles.module.css';
@@ -30,13 +26,12 @@ const MonitoringPage = (props: PropsMonitoring) => {
                 <title>Monitoring - SCG Indonesia</title>
             </Head>
             <section className={styles.monitoring_section}>
-                <Navbar />
                 <div className={styles.monitoring_container}>
                     {data?.map((value, index) => (
                         <div key={index}>
                             <div className={styles.monitoring_header}>
                                 <span className={styles.monitoring_title}>
-                                    Monitoring System ({value.gate.toUpperCase()} - {value.kodePos})
+                                    ({value.gate.toUpperCase()} - {value.kodePos})
                                 </span>
                                 <span
                                     className={
@@ -95,7 +90,6 @@ const MonitoringPage = (props: PropsMonitoring) => {
                         </div>
                     ))}
                 </div>
-                <Footer />
             </section>
         </>
     );

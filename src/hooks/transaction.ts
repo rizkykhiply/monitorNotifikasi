@@ -38,7 +38,7 @@ const useHooksTransaction = (params: ITransactions[]): HooksTransaction => {
     const getGate = params.map((value) => value.gate).join(',');
 
     const getQuery = `kodePos=${getKodePos}&gate=${getGate}`;
-    const { data, isLoading } = useSWR(getTransactionUrl + getQuery, fetcher, { refreshInterval: 3000, keepPreviousData: true });
+    const { data, isLoading } = useSWR(getTransactionUrl + getQuery, fetcher, { refreshInterval: 1000, keepPreviousData: true });
 
     return {
         data: data?.data,
